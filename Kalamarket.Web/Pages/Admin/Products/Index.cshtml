@@ -1,0 +1,82 @@
+﻿@page
+@model Kalamarket.Web.Pages.Admin.Product.IndexModel
+@{
+}
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex align-items-center">
+            <h5 class="mb-0">ليست محصولات سايت</h5>
+            <form method="get" class="ms-auto position-relative">
+                <div class="input-group">
+                    <input class=" form-control ps-5" name="name" placeholder="نام محصول">
+                    <select class="form-select" name="ordertype">
+                        <option value="">انتخاب كنيد</option>
+                        <option value="Expensive">گرانترين</option>
+                        <option value="Cheap">ارزان ترين</option>
+                        <option value="MostSell">بيشترين فروش</option>
+                        <option value="LessSell">كمترين فروش</option>
+                    </select>
+                    <button type="submit" class="btn btn-outline-success px-5">بگرد</button>
+                </div>
+            </form>
+        </div>
+        <div class="table-responsive mt-3">
+            <table class="table align-middle">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>تصوير محصول</th>
+                        <th>نام محصول</th>
+                        <th>نام فروشنده</th>
+                        <th>تعداد فروش</th>
+                        <th>قيمت</th>
+                        <th>دستورات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Products)
+                    {
+                        <tr>
+                            <td>
+                                <img src="~/Product/Thumb/@item.ImageName"style="max-height:140px"/>
+                            </td>
+                            <td>
+                                @item.Name
+                            </td>
+                            <td>@item.SellerName</td>
+                            
+                            <td>
+                                @item.SellCount
+                            </td>
+                            <td>
+                                @item.ProductPrice.ToString("#,0 تومان")
+                            </td>
+                            <td>
+                                <a href="/Admin/Products/DeleteProduct/@item.ProductId" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Delete" aria-label="Delete">
+                                    <ion-icon name="trash-outline" role="img" class="md hydrated" aria-label="trash outline"></ion-icon>
+                                </a>
+                                <a href="/Admin/Products/Edit/@item.ProductId" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit">
+                                    <ion-icon name="pencil-outline" role="img" class="md hydrated" aria-label="pencil outline"></ion-icon>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@if ((int)ViewData["count"] > 1)
+{
+    <div class="text-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination round-pagination">
+                @for (int i = 1; i <= (int)ViewData["count"]; i++)
+                {
+                    <li class="page-item">
+                        <a class="page-link @((int)ViewData["pageId"] == i?"active":"")" href="/Admin/Products?pageId=@i">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+}

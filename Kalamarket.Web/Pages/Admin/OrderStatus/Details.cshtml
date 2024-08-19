@@ -1,0 +1,25 @@
+﻿@page
+@model Kalamarket.Web.Pages.Admin.OrderStatus.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>جزییات</h1>
+
+<div>
+    <h4>وضعیت سفارش</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+          عنوان سفارش
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OrderStatus.StatusTitle)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.OrderStatus.OrderStatusId">ویرایش</a> |
+    <a asp-page="./Index">بازگشت</a>
+</div>

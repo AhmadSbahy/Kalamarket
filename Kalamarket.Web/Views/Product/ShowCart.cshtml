@@ -1,0 +1,182 @@
+﻿@using Kalamarket.Core.DTOs.Order
+@model List<ShowCartViewModel>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<div class="container-main">
+	<div class="d-block">
+		<div class="main-row">
+			<div id="breadcrumb">
+				<i class="mdi mdi-home"></i>
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="/">خانه</a></li>
+						<li class="breadcrumb-item active open" aria-current="page">سبد خرید</li>
+					</ol>
+				</nav>
+			</div>
+			<section class="cart-home">
+				<div class="post-item-cart d-block order-2">
+					<div class="content-page">
+						<div class="cart-form">
+							<form action="#" class="c-form">
+								<table class="table-cart cart table table-borderless">
+									<thead>
+									<tr>
+										<th scope="col" class="product-cart-name">نام محصول</th>
+										<th scope="col" class="product-cart-price">قیمت</th>
+										<th scope="col" class="product-cart-quantity">تعداد</th>
+										<th scope="col" class="product-cart-Total">مجموع</th>
+									</tr>
+									</thead>
+									<tbody>
+									@foreach (var item in Model)
+									{
+										<tr>
+											<th scope="row" class="product-cart-name">
+												<div class="product-thumbnail-img">
+													<a href="#">
+														<img style="width : 70px;height:50px" src="~/Product/Image/@item.ProductImage">
+													</a>
+													<div class="product-remove">
+														<a href="/romoveItem/@item.DetailId/@item.ProductId" class="remove">
+															<i class="mdi mdi-close"></i>
+														</a>
+													</div>
+												</div>
+												<div class="product-title">
+													<a href="/Details/@item.ProductId">
+														@item.ProductName
+													</a>
+													<div class="variation">
+														<div class="variant-guarantee">
+															<i class="mdi mdi-check"></i>
+															گارانتی @item.Waranty ماهه
+														</div>
+														<div class="seller">
+															<i class="mdi mdi-storefront"></i>
+															فروشنده :
+															<span>@item.SellerName</span>
+														</div>
+													</div>
+												</div>
+											</th>
+											<td class="product-cart-price">
+												<span class="amount">
+													@item.singlePrice.ToString("#,0")
+													<span>تومان</span>
+												</span>
+											</td>
+											<td class="product-cart-quantity">
+												<div class="required-number before">
+													<div class="quantity">
+														@item.ProductQountity
+													</div>
+												</div>
+											</td>
+											<td class="product-cart-Total">
+												<span class="amount">
+													@item.DetailSum.ToString("#,0")
+													<span>تومان</span>
+												</span>
+											</td>
+										</tr>
+									}
+									</tbody>
+								</table>
+							</form>
+							<div class="cart-collaterals">
+								<div class="totals d-block">
+									<h3 class="Total-cart-total">مجموع کل سبد خرید</h3>
+									<div class="checkout-summary">
+										<ul class="checkout-summary-summary">
+											<li class="order-total">
+												<span class="amount"> مجموع</span>
+												<span> @Model[0].FullPrice.ToString("#,0") تومان</span>
+											</li>
+											<li class="discount-code">
+												<div class=" align-items-center">
+													<div class="col-md-7 pr mt-5">
+														<div class="coupon">
+															<form action="/Home/UseDiscount" method="post">
+																<input type="hidden" name="orderId" value="@Model[0].OrderId" />
+																<input type="text" name="code" class="input-coupon-code" placeholder="كد تخفیف:">
+																<button class="btn btn-coupon" type="submit">اعمال</button>
+															</form>
+														</div>
+													</div>
+													<div class="col-md-2 pl mt-5">
+														@if (Model[0].User.Address != null)
+														{
+															<div class="proceed-to-checkout">
+																<a href="/PayOrder/@Model[0].OrderId" class="checkout-button d-block">
+																	تسویه
+																	حساب
+																</a>
+															</div>
+														}
+														else
+														{
+															<div class="alert alert-danger text-justify">
+																براى ثبت سفارش ابتدا از اين <a class="alert-link" href="/UserPanel/Address">لينک</a>  ادرس خود را ثبت كنيد
+															</div>
+														}
+													</div>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		// دریافت پارامترهای URL
+		const urlParams = new URLSearchParams(window.location.search);
+		const type = urlParams.get('Type');
+
+		// بررسی نوع پیام و نمایش SweetAlert
+		if (type === 'notfound') {
+			Swal.fire({
+				icon: 'error',
+				title: 'خطا',
+				text: 'کد تخفیف یافت نشد!',
+			});
+		} else if (type === 'success') {
+			Swal.fire({
+				icon: 'success',
+				title: 'موفقیت',
+				text: 'کد تخفیف با موفقیت اعمال شد!',
+			});
+		} else if (type === 'expired') {
+			Swal.fire({
+				icon: 'warning',
+				title: 'هشدار',
+				text: 'کد تخفیف منقضی شده است!',
+			});
+		} else if (type === 'notstarted') {
+			Swal.fire({
+				icon: 'warning',
+				title: 'هشدار',
+				text: 'کد تخفیف هنوز شروع نشده است!',
+			});
+		} else if (type === 'userused') {
+			Swal.fire({
+				icon: 'warning',
+				title: 'هشدار',
+				text: 'این کد قبلا توسط شما اعمال شده است!',
+			});
+		} else if (type) {
+			Swal.fire({
+				icon: 'info',
+				title: 'اطلاعات',
+				text: 'وضعیت کد تخفیف مشخص نیست!',
+			});
+		}
+	});
+</script>

@@ -1,0 +1,48 @@
+﻿@using Kalamarket.DataLayer.Eintitys.Groups
+@model IEnumerable<Group>
+
+<nav class="sidebar">
+	<div class="nav-header">
+		<div class="header-cover"></div>
+		<div class="logo-wrap">
+			<a class="logo-icon" href="#"><img alt="logo-icon" src="~/assets/images/logo.png" width="40"></a>
+		</div>
+	</div>
+	<ul class="nav-categories ul-base z-index-1 position-absolute">
+		@foreach (var group in Model.Where(p => p.GroupParentId == null))
+		{
+			<li>
+				<a href="/Product?selectedGroups=@group.GroupId" class="collapsed" type="button" data-toggle="collapse" data-target="#collapse-@group.GroupId"
+				   aria-expanded="false" aria-controls="collapse-@group.GroupId">
+					<i class="mdi mdi-chevron-down"></i>
+					@group.GroupTitle
+				</a>
+				@if (Model.Any(p => p.GroupParentId == group.GroupId))
+				{
+					foreach (var sub in Model.Where(p => p.GroupParentId == group.GroupId))
+					{
+						<div id="collapse-@group.GroupId" class="collapse" aria-labelledby="heading-@group.GroupId"
+							 data-parent="#accordionExample" style="">
+							@foreach (var sub2 in Model.Where(p => p.GroupParentId == group.GroupId))
+							{
+								<ul>
+									<li>
+										<a href="/Product?selectedGroups=@sub2.GroupId" class="category-level-2">@sub2.GroupTitle</a>
+									</li>
+								</ul>
+							}
+						</div>
+					}
+				}
+			</li>
+		}
+	</ul>
+
+</nav>
+<div class="nav-btn nav-slider">
+	<span class="linee1"></span>
+	<span class="linee2"></span>
+	<span class="linee3"></span>
+</div>
+<div class="overlay"></div>
+<!-- bottom-menu-joomy -->	

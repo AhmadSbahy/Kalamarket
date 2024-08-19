@@ -1,0 +1,49 @@
+﻿@page "{id}"
+@using Kalamarket.DataLayer.Eintitys.User
+@model Kalamarket.Web.Pages.Admin.ManageUsers.EditModel
+@{
+	List<Role> roles = ViewData["Roles"] as List<Role>;
+	List<int> userroles = ViewData["UserRoles"] as List<int>;
+}
+<form method="post">
+	<input type="hidden" asp-for="User.UserId" />
+	<input type="hidden" asp-for="User.RigisterDate" />
+	<input class="form-control mb-3" asp-for="User.FullName" placeholder="نام ونام خانوادگی" aria-label="default input example">
+	<input class="form-control mb-3" asp-for="User.UserName" placeholder="نام كاربری" aria-label="default input example">
+	<input class="form-control mb-3" asp-for="User.Email" placeholder="ايميل" aria-label="default input example">
+	<input class="form-control mb-3" asp-for="User.Password" placeholder="كلمه عبور" aria-label="default input example">
+	<p class="text-muted">در صورت وارد كردن كلمه عبور , كلمه عبور كاربر تغغير ميكند</p>
+	<input class="form-control mb-3" asp-for="User.PhoneNumber" maxlength="11" type="text" placeholder="شماره تماس" aria-label="default input example">
+	<input class="form-control mb-3" asp-for="User.ActivCode" maxlength="5" type="text" placeholder="كد فعال سازی" aria-label="default input example">
+	<div class="form-check-danger form-check form-switch">
+		<input class="form-check-input" asp-for="User.IsActive" id="flexSwitchCheckCheckedDanger" />
+		<label class="form-check-label" for="flexSwitchCheckCheckedDanger">فعال شده</label>
+	</div>
+	<div class="form-check form-switch">
+		<input class="form-check-input" asp-for="User.IsDelete" type="checkbox" id="flexSwitchCheckDefault" />
+		<label class="form-check-label" for="flexSwitchCheckDefault">حذف شده</label>
+	</div>
+	<label class="form-label">نقش هاى كاربر</label>
+	@if (roles != null && roles.Any())
+	{
+		<div class="border p-2">
+
+			@foreach (var item in roles)
+			{
+				<div class="form-check">
+					<label class="form-check-label" for="flexCheckChecked">@item.RoleTitle</label>
+					<input class="form-check-input" @(userroles != null && userroles.Any(p => p == item.RoleId) ? "checked" : "") name="rolesId" type="checkbox" value="@item.RoleId" id="flexCheckChecked" />
+				</div>
+			}
+
+		</div>
+	}
+
+	else
+	{
+		<div class="alert alert-warning">
+			نقشى وجود ندارد
+		</div>
+	}
+	<button type="submit" class="btn btn-outline-warning px-5 mb-3">ويرايش</button>
+</form>

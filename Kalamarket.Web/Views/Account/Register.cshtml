@@ -1,0 +1,69 @@
+﻿@{
+	ViewData["Title"] = "ثبت نام";
+
+	Layout = "~/Views/Shared/_AccountLayout.cshtml";
+
+}
+@using Kalamarket.Core.DTOs.User
+@model RegisterViewModle
+<div class="container">
+	<div class="row">
+		<div class="col-lg">
+			<section class="page-account-box">
+				<div class="col-lg-6 col-md-6 col-xs-12 mx-auto">
+					<div class="ds-userlogin">
+						<a href="/" class="account-box-logo">digismart</a>
+						<div class="account-box">
+							<div class="account-box-headline">
+								<a href="/Login" class="login-ds">
+									<span class="title">ورود</span>
+									<span class="sub-title">به کالامارکت</span>
+								</a>
+								<a href="/Register" class="register-ds active">
+									<span class="title">ثبت نام</span>
+									<span class="sub-title">در کالامارکت</span>
+								</a>
+							</div>
+							<div class="Login-to-account mt-4">
+								<div class="account-box-content p-3">
+									<h4>ثبت نام در کالامارکت</h4>
+									<form asp-controller="Account" asp-action="Register" method="post" class="form-account text-right">
+										<div class="form-account-title">
+											<label for="email-phone">نام و نام خوانوادگی‌</label>
+											<input asp-for="FullName" class="number-email-input" />
+											<span class="text text-danger" asp-validation-for="FullName"></span>
+										</div>
+										<div class="form-account-title">
+											<label for="email-phone">نام كاريری</label>
+											<input asp-for="UserName" class="number-email-input" />
+											<span class="text text-danger" asp-validation-for="UserName"></span>
+										</div>
+										<div class="form-account-title">
+											<label for="email-phone">ایمیل</label>
+											<input asp-for="Email" class="number-email-input" />
+											<span class="text text-danger" asp-validation-for="Email"></span>
+										</div>
+										<div class="form-account-title">
+											<label for="email-phone">شماره تماس</label>
+											<input asp-for="PhoneNumber" maxlength="11" class="number-email-input" />
+											<span class="text text-danger" asp-validation-for="PhoneNumber"></span>
+										</div>
+										<div class="form-account-title">
+											<label for="password">رمز عبور</label>
+											<input asp-for="Password" class="password-input" />
+											<span class="text text-danger" asp-validation-for="Password"></span>
+										</div>
+
+										<div class="form-row-account">
+											<button type="submit" class="btn btn-primary btn-register">ثبت نام در کالامارکت</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>

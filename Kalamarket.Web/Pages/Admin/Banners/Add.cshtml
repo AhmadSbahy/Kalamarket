@@ -1,0 +1,16 @@
+﻿@page
+@model Kalamarket.Web.Pages.Admin.Banners.AddModel
+
+<form method="post" enctype="multipart/form-data">
+	<input type="hidden" asp-for="Banner.ImageName" value="X" />
+	<div class="mb-4">
+		<label for="Product_ProductName" class="form-label">لينک بنر</label>
+		<input class="form-control mb-3" asp-for="Banner.ImageUrl" placeholder="لينک بنر" aria-label="default input example">
+		<span class="text text-danger" asp-validation-for="Banner.ImageUrl"></span>
+	</div>
+	<div class="mb-3">
+		<label for="file" class="form-label">تصوير بنر</label>
+		<input class="form-control" type="file" id="file" name="file" />
+	</div>
+	<button type="submit" class="btn btn-outline-success px-5 mb-3">افزودن</button>
+</form>

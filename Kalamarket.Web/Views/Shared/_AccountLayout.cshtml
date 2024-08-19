@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <partial name="_MetaTag" />
+    <partial name="_Styles" />
+
+</head>
+<body>
+<div>
+	@RenderBody()
+</div>
+</body>
+<script src="~/assets/js/vendor/jquery-3.2.1.min.js"></script>
+<script src="~/assets/js/vendor/bootstrap.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
+
+<!-- plugin----------------------------------------------------->
+
+<script src="~/assets/js/vendor/owl.carousel.min.js"></script>
+<script src="~/assets/js/vendor/jquery.countdown.js"></script>
+<script src="~/assets/js/vendor/jquery.nice-select.min.js"></script>
+<script src="~/assets/js/vendor/jquery.jqZoom.js"></script>
+<script src="~/assets/js/vendor/ResizeSensor.min.js"></script>
+<script src="~/assets/js/vendor/theia-sticky-sidebar.min.js"></script>
+<script src="~/assets/js/vendor/wNumb.js"></script>
+<script src="~/assets/js/vendor/nouislider.min.js"></script>
+
+<script src="~/assets/js/vendor/lightgallery-all.js"></script>
+<script src="~/assets/js/vendor/jquery.ez-plus.js"></script>
+
+<script src="~/assets/js/main.js"></script>
+@RenderSection("Scripts", false)
+</html>

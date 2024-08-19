@@ -1,0 +1,94 @@
+﻿@using Kalamarket.Core.DTOs.UserPanel
+@model List<QoustionsViewModel>
+<style>
+	.table-responsive {
+		display: block;
+		width: 100%;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	/* استایل‌های اضافی برای جداول */
+	th, td {
+		white-space: nowrap;
+	}
+</style>
+<div class="container-main">
+	<div class="d-block">
+		<section class="profile-home">
+			<div class="col-lg">
+				<div class="post-item-profile order-1 d-block">
+					<partial name="_SideBar" />
+					<div class="col-lg-9 col-md-9 col-xs-12 pl">
+						<div class="profile-content">
+							<div class="profile-stats">
+								<div class="profile-comment table-responsive">
+									<table class="table table-borderless table-profile-comment">
+										<thead>
+											<tr>
+												<th scope="col"></th>
+												<th scope="col">نام محصول</th>
+												<th scope="col">نظر</th>
+												<th scope="col">وضعیت</th>
+												<th scope="col">عملیات</th>
+											</tr>
+										</thead>
+										<tbody>
+											@foreach (var item in Model)
+											{
+												<tr>
+													<th scope="row" class="th-img">
+														<div class="thumb-img">
+															<a href="/Details/@item.ProductId">
+																<img src="~/Product/Image/@item.ProductImage">
+															</a>
+														</div>
+													</th>
+													<td>
+														@item.ProductName
+													</td>
+													<td>
+														@item.QoustionsBody
+													</td>
+													<td>
+														@if (item.IsAnsewrd)
+														{
+															<span class="profile-comment-status-approved">پاسخ داده شده</span>
+														}
+														else
+														{
+															<span style="color:red">پاسخ داده نشده</span>
+														}
+													</td>
+													<td>
+														<a onclick="Qa(@item.QoustionsId)" class="profile-comment-remove"><i class="fa fa-trash"></i></a>
+													</td>
+												</tr>
+											}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</div>
+<script>
+	function Qa(productId) {
+		$.ajax({
+			url: "/DeleteQoustion/" + productId,
+			type: "GET",
+			success: function (data) {
+				// بعد از حذف محصول با موفقیت، بخش مربوطه از صفحه بروزرسانی می‌شود
+				$('.table-profile-comment').load(location.href + ' .table-profile-comment');
+			},
+			error: function (xhr, status, error) {
+				// در صورت بروز خطا، پیام خطا را نمایش می‌دهیم
+				console.error("Error:", error);
+			}
+		});
+	}
+</script>

@@ -1,0 +1,13 @@
+﻿@page "{id}"
+@model Kalamarket.Web.Pages.Admin.Groups.EditModel
+@{
+}
+<form method="post">
+	<input type="hidden" asp-for="Group.GroupParentId" />
+	<input type="hidden" asp-for="Group.GroupId" />
+	<div class="mb-4">
+		<label for="Group_GroupTitle" class="form-label">عنوان گروه</label>
+		<input class="form-control mb-3" asp-for="Group.GroupTitle" placeholder="عنوان گروه" aria-label="default input example">
+	</div>
+	<button type="submit" class="btn btn-outline-warning px-5 mb-3">ويرايش</button>
+</form>

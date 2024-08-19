@@ -1,0 +1,42 @@
+﻿@using Kalamarket.Core.DTOs.User
+@model ResetPasswordViewModel
+@{
+	ViewData["Title"] = "تغيير كلمه عبور";
+	Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+<div class="container">
+	<div class="row">
+		<div class="col-lg">
+			<section class="page-account-box">
+				<div class="col-lg-6 col-md-6 col-xs-12 mx-auto">
+					<div class="ds-userlogin">
+						<a href="/" class="account-box-logo">digismart</a>
+						<div class="account-box">
+							<div class="Login-to-account mt-4">
+								<div class="account-box-content p-3">
+									<h4 class="mb-2">تغییر رمز عبور</h4>
+									<form asp-controller="Account" asp-action="ResetPass" method="post" class="form-account text-right">
+										<input type="hidden" name="email" value="@ViewBag.Email" />
+										<div class="form-account-title">
+											<label for="password">رمز عبور جدید</label>
+											<input asp-for="Password" class="password-input" />
+											<span class="text text-danger" asp-validation-for="Password"></span>
+										</div>
+										<div class="form-account-title">
+											<label for="password">تکرار رمز عبور جدید</label>
+											<input asp-for="RePassword" class="password-input"  />
+											<span class="text text-danger" asp-validation-for="RePassword"></span>
+										</div>
+										<div class="form-row-account">
+											<button type="submit" class="btn btn-primary btn-login">تغییر رمز عبور</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>

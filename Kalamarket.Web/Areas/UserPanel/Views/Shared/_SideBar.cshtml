@@ -1,0 +1,80 @@
+﻿@using Kalamarket.Core.Convartor
+@using Kalamarket.Core.Security
+@using Kalamarket.Core.Service.Classes
+@using Kalamarket.Core.Service.Interface
+@inject IUserSrvice _usersrvice
+@inject IPermissionSrvice _PermissionSrvice;
+@{
+	var side = _usersrvice.GetSideBarInformationByUserName(User.Identity.Name);
+}
+<div class="col-lg-3 col-md-3 col-xs-12 pr">
+	<div class="sidebar-profile sidebar-navigation">
+		<section class="profile-box">
+			<header class="profile-box-header-inline">
+				<div class="profile-avatar user-avatar profile-img">
+					<img src="~/assets/images/man.png">
+				</div>
+			</header>
+			<footer class="profile-box-content-footer">
+				<span class="profile-box-nameuser">@side.FullName</span>
+				<span class="profile-box-registery-date">عضویت در @side.RegisterDate.Toshamsi()</span>
+				<span class="profile-box-phone">شماره همراه : @side.PhoneNumber</span>
+				<div class="profile-box-tabs">
+					<a href="/Logout" class="profile-box-tab-sign-out"><i class="mdi mdi-logout-variant"></i>خروج از حساب</a>
+				</div>
+			</footer>
+		</section>
+		<section class="profile-box">
+			<ul class="profile-account-navs">
+				<li class="profile-account-nav-item navigation-link-dashboard">
+					<a href="/UserPanel">
+						<i class="mdi mdi-account-outline"></i>
+						پروفایل
+					</a>
+				</li>
+				<li class="profile-account-nav-item navigation-link-dashboard">
+					<a href="/UserPanel/MyOrders">
+						<i class="mdi mdi-cart"></i>
+						خرید های من
+					</a>
+				</li>
+				<li class="profile-account-nav-item navigation-link-dashboard">
+					<a href="/UserPanel/Favorite" >
+						<i class="mdi mdi-heart"></i>
+						لیست علاقه مندی
+					</a>
+				</li>
+				<li class="profile-account-nav-item navigation-link-dashboard">
+					<a href="/UserPanel/Address" >
+						<i class="mdi mdi-map-outline"></i>
+						آدرس ها
+					</a>
+				</li>
+				<li class="profile-account-nav-item navigation-link-dashboard">
+					<a href="/UserPanel/MyQoustions" >
+						<i class="mdi mdi-email-open-outline"></i>
+						پرسش هاى من
+					</a>
+				</li>
+				@if (_PermissionSrvice.CheckPermission(6,User.Identity.Name))
+				{
+					<li class="profile-account-nav-item navigation-link-dashboard">
+						<a href="/UserPanel/MyProducts" >
+							<i class="mdi mdi-email-open-outline"></i>
+							محصولات من
+						</a>
+					</li>
+				}
+				@if (_PermissionSrvice.CheckPermission(6, User.Identity.Name))
+				{
+					<li class="profile-account-nav-item navigation-link-dashboard">
+						<a href="/UserPanel/MySells">
+							<i class="mdi mdi-email-open-outline"></i>
+							سفارشات من
+						</a>
+					</li>
+				}
+			</ul>
+		</section>
+	</div>
+</div>

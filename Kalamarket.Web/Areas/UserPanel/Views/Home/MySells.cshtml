@@ -1,0 +1,57 @@
+﻿@using Kalamarket.Core.Convartor
+@model IEnumerable<Kalamarket.Core.DTOs.Order.ShowSellsViewModel>
+<style>
+	.table-responsive {
+		display: block;
+		width: 100%;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	/* استایل‌های اضافی برای جداول */
+	th, td {
+		white-space: nowrap;
+	}
+</style>
+<div class="container-main">
+	<div class="d-block">
+		<section class="profile-home">
+			<div class="col-lg">
+				<div class="post-item-profile order-1 d-block">
+					<partial name="_SideBar" />
+					<div class="col-lg-9 col-md-9 col-xs-12 pl">
+						<div class="profile-content">
+							<div class="profile-stats">
+								<div class="profile-comment table-responsive">
+									<table class="table table-borderless table-profile-comment">
+										<thead>
+											<tr>
+												<th scope="col">نام خریدار</th>
+												<th scope="col">تاریخ سفارش</th>
+												<th scope="col">مبلغ کل</th>
+												<th scope="col">وضعیت سفارش</th>
+												<th scope="col">جزئیات</th>
+											</tr>
+										</thead>
+										<tbody>
+											@foreach (var item in Model)
+											{
+												<tr>
+													<td>@item.FullName</td>
+													<td>@item.OrderDate.Toshamsi()</td>
+													<td>@item.Price</td>
+													<td>@item.OrderStatus</td>
+													<td><a href="/UserPanel/GetOrderDetail/@item.UO_Id" style="cursor: pointer;" class="remove-product alert alert-primary">نمایش</a></td>
+												</tr>
+											}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</div>

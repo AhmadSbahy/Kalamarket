@@ -1,0 +1,75 @@
+﻿@page
+@using Kalamarket.Core.Convartor
+@model Kalamarket.Web.Pages.Admin.Blogs.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex align-items-center">
+            <h5 class="mb-0">ليست مقاله هاى سايت</h5>
+        </div>
+        <div class="table-responsive mt-3">
+            <table class="table align-middle">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>تصوير </th>
+                        <th>عنوان</th>
+                        <th>بازديد</th>
+                        <th>تاريخ انتشار</th>
+                        <th>نام منتشر</th>
+                        <th>دستورات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Blog)
+                    {
+                        <tr>
+                            <td>
+                                <img src="~/Blog/@item.ImageName" style="height:100px;width:100px" />
+                            </td>
+                            <td>
+                                @item.BlogTitle
+                            </td>
+                            <td>@item.Views</td>
+
+                            <td>
+                                @item.CreateDate.Toshamsi()
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.FullName)
+                            </td>
+                            <td>
+                                <a href="/Admin/Blogs/Delete/@item.BlogId" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Delete" aria-label="Delete">
+                                    <ion-icon name="trash-outline" role="img" class="md hydrated" aria-label="trash outline"></ion-icon>
+                                </a>
+                                <a href="/Admin/Blogs/Edit/@item.BlogId" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit">
+                                    <ion-icon name="pencil-outline" role="img" class="md hydrated" aria-label="pencil outline"></ion-icon>
+                                </a>
+                                <a href="/Admin/Blogs/Details/@item.BlogId" class="text-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="detail info" aria-label="detail">
+                                    <ion-icon name="eye-outline" role="img" class="md hydrated" aria-label="detail outline"></ion-icon>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@if ((int)ViewData["count"] > 1)
+{
+    <div class="text-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination round-pagination">
+                @for (int i = 1; i <= (int)ViewData["count"]; i++)
+                {
+                    <li class="page-item">
+                        <a class="page-link @((int)ViewData["pageId"] == i?"active":"")" href="/Admin/Blogs?pageId=@i">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+}

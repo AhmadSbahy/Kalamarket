@@ -1,0 +1,89 @@
+﻿@using Kalamarket.Core.DTOs.UserPanel
+@model Tuple<List<FavoriteViewModel>,int>
+<style>
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+	/* استایل‌های اضافی برای جداول */
+	th, td {
+		white-space: nowrap;
+	}
+</style>
+
+<div class="container-main">
+    <div class="d-block">
+        <section class="profile-home">
+            <div class="col-lg">
+                <div class="post-item-profile order-1 d-block">
+                   <partial name="_SideBar"/>
+                    <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                        <div class="profile-content">
+                            <div class="profile-stats">
+	                            <div class="table-responsive">
+		                            <table class="table ns-table table-profile-favorites">
+			                            <thead>
+			                            <tr>
+				                            <th scope="col" width="50"> </th>
+				                            <th scope="col">نام محصول</th>
+				                            <th scope="col">قیمت</th>
+				                            <th class="actions-th"></th>
+			                            </tr>
+			                            </thead>
+			                            <tbody>
+			                            @foreach (var product in Model.Item1)    
+			                            {
+				                            <tr class="spacer"></tr>
+				                            <tr>
+					                            <th scope="row">
+						                            <div class="favorites-product-img">
+							                            <a href="/Details/@product.ProductId">
+								                            <img style="width=70px;height:55px" src="~/Product/Image/@product.ProductImage" />
+							                            </a>
+						                            </div>
+					                            </th>
+					                            <td>
+						                            <a href="/Details/@product.ProductId">@product.ProductName</a>
+					                            </td>
+					                            <td>
+						                            <span class="amount">
+							                            @product.ProductPrice
+							                            <span>تومان</span>
+						                            </span>
+					                            </td>
+					                            <td class="text-left actions">
+						                            <a style="cursor: pointer;" onclick="Fav(@product.ProductId)" class="remove-product"><i class="mdi mdi-close"></i></a>
+					                            </td>
+				                            </tr>
+				                            <tr class="spacer"></tr>
+			                            }
+			                            </tbody>
+		                            </table>
+	                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    function Fav(productId) {
+        $.ajax({
+            url: "/AddFavorite/" + productId,
+            type: "GET",
+            success: function (data) {
+                // بعد از حذف محصول با موفقیت، بخش مربوطه از صفحه بروزرسانی می‌شود
+                $('.table-profile-favorites').load(location.href + ' .table-profile-favorites');
+            },
+            error: function (xhr, status, error) {
+                // در صورت بروز خطا، پیام خطا را نمایش می‌دهیم
+                console.error("Error:", error);
+            }
+        });
+    }
+</script>

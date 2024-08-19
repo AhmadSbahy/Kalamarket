@@ -1,0 +1,74 @@
+﻿@page
+@model Kalamarket.Web.Pages.Admin.Groups.IndexModel
+@{
+}
+<div class="card">
+	<div class="card-body">
+		<div class="d-flex align-items-center">
+			<h5 class="mb-0">ليست گروه هاى سايت</h5>
+		</div>
+		<div class="table-responsive mt-3">
+			<table class="table align-middle">
+				<thead class="table-secondary">
+					<tr>
+						<th>عنوان گروه</th>
+						<th>زير گروه</th>
+						<th>حذف شده</th>
+						<th>دستورات</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model.Groups.Where(p => p.GroupParentId == null))
+					{
+						<tr>
+							<td>@item.GroupTitle</td>
+							<td>
+								@if (item.Groups != null)
+								{
+
+									<ul>
+										@foreach (var sub in item.Groups)	
+										{
+											<li>@sub.GroupTitle</li>
+											<a href="/Admin/Groups/Delete/@sub.GroupId" class="btn btn-outline-danger btn-sm">
+												حذف
+											</a>
+											<a href="/Admin/Groups/Edit/@sub.GroupId" class="btn btn-outline-warning btn-sm">
+												ویرایش
+											</a>
+										}
+									</ul>
+
+								}
+							</td>
+							<td>
+								@if(!item.IsDeleted)
+								{
+									<span class="text text-success">نشده</span>
+								}
+								else
+								{
+									<span class="text text-danger">شده</span>
+								}
+							</td>
+							<td>
+								<a href="/Admin/Groups/Delete/@item.GroupId" class="btn btn-outline-danger btn-sm">
+									حذف
+								</a>
+								<a href="/Admin/Groups/Edit/@item.GroupId" class="btn btn-outline-warning btn-sm">
+									ویرایش
+								</a>
+								<a href="/Admin/Groups/Add/@item.GroupId" class="btn btn-outline-info btn-sm">
+									زير گروه
+								</a>
+								@*<a href="/Admin/Rolse/delete/@roles.RoleId" class="btn btn-danger btn-sm">
+							حذف
+							</a> *@
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

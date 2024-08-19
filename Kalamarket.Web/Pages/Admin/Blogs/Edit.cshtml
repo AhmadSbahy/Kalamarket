@@ -1,0 +1,41 @@
+﻿@page "{id}"
+@model Kalamarket.Web.Pages.Admin.Blogs.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<form method="post" enctype="multipart/form-data">
+	<input type="hidden" asp-for="Blog.ImageName"/>
+	<input type="hidden" asp-for="Blog.UserId"/>
+	<input type="hidden" asp-for="Blog.CreateDate"/>
+	<input type="hidden" asp-for="Blog.BlogId"/>
+	<div class="mb-4">
+		<label for="Product_ProductName" class="form-label">عنوان مقاله</label>
+		<input class="form-control mb-3" asp-for="Blog.BlogTitle" placeholder="عنوان مقاله" aria-label="default input example">
+		<span class="text text-danger" asp-validation-for="Blog.BlogTitle"></span>
+	</div>
+	<div class="mb-4">
+		<label for="Product_ProductDescription" class="form-label">توضيح مقاله</label>
+		<textarea class="form-control mb-3" asp-for="Blog.BlogDescription" placeholder="توضيح مقاله" aria-label="default input example"></textarea>
+		<span class="text text-danger" asp-validation-for="Blog.BlogDescription"></span>
+	</div>
+
+	<div class="mb-3">
+		<label for="file" class="form-label">تصوير مقاله</label>
+		<input class="form-control" type="file" id="file" name="file" />
+		<div class="alert alert-warning">
+			درصورت انتخاب عكس جديد عكس قبلى شما حذف ميشود
+		</div>
+	</div>
+	<button type="submit" class="btn btn-outline-warning px-5 mb-3">ويرايش</button>
+</form>
+
+<script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+<script>
+
+	CKEDITOR.replace('Blog_BlogDescription', {
+		customConfig: '/assets/js/Config.js'
+	});
+
+</script>

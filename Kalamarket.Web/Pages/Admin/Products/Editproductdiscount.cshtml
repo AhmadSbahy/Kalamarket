@@ -1,0 +1,35 @@
+﻿@page "{id}"
+@using Kalamarket.Core.Convartor
+@model Kalamarket.Web.Pages.Admin.Products.EditproductdiscountModel
+@{
+}
+<form method="post">
+	<input type="hidden" asp-for="ProductDiscount.ProductId" />
+	<input type="hidden" asp-for="ProductDiscount.DiscountId" />
+	<div class="mb-4">
+		<label for="Product_ProductName" class="form-label">درصد تخفيف</label>
+		<input max="100" type="number" class="form-control mb-3" asp-for="ProductDiscount.DiscountPercent" placeholder="درصد تخفيف" aria-label="default input example">
+		<span class="text text-danger" asp-validation-for="ProductDiscount.DiscountPercent"></span>
+	</div>
+	<div class="mb-4">
+		<label for="Product_ProductName" class="form-label">تاريخ شروع</label>
+		<input type="text" id="stDate" name="stDate" autocomplete="off" value="@Model.ProductDiscount.StartDate.Toshamsi()" />
+		<span class="text text-danger" asp-validation-for="ProductDiscount.StartDate"></span>
+	</div>
+	<div class="mb-4">
+		<label for="Product_ProductName" class="form-label">تاريخ انتها</label>
+		<input type="text" id="edDate" name="edDate" value="@Model.ProductDiscount.EndDate.Toshamsi()" autocomplete="off" />
+		<span class="text text-danger" asp-validation-for="ProductDiscount.EndDate"></span>
+	</div>
+	<button type="submit" class="btn btn-outline-warning px-5 mb-3">ویرایش</button>
+</form>
+@section Scripts {
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$("#stDate").datepicker({ dateFormat: "yy/mm/dd", isRTL: true, showButtonPanel: true });
+			$("#edDate").datepicker({ dateFormat: "yy/mm/dd", isRTL: true, showButtonPanel: true });
+		});
+	</script>
+
+}

@@ -1,0 +1,40 @@
+﻿@page
+@model Kalamarket.Web.Pages.Admin.Roles.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex align-items-center">
+            <h5 class="mb-0">ليست نقش ها </h5>
+        </div>
+        <div class="table-responsive mt-3">
+            <table class="table align-middle">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>عنوان نقش</th>
+                        <th>دستورات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Role)
+                    {
+                        <tr>
+                            <td>@item.RoleTitle</td>
+                            <td>
+                                <a href="/Admin/Roles/Delete/@item.RoleId" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Delete" aria-label="Delete">
+                                    <ion-icon name="trash-outline" role="img" class="md hydrated" aria-label="trash outline"></ion-icon>
+                                </a>
+
+                                <a href="/Admin/Roles/Edit/@item.RoleId" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit">
+                                    <ion-icon name="pencil-outline" role="img" class="md hydrated" aria-label="pencil outline"></ion-icon>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

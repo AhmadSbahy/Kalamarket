@@ -1,0 +1,98 @@
+﻿@page
+@model Kalamarket.Web.Pages.Admin.ManageUsers.IndexModel
+@{
+    
+}
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex align-items-center">
+            <h5 class="mb-0">ليست كاربران سايت</h5>
+            <form class="ms-auto position-relative">
+                <div class="input-group">
+                    <input class=" form-control ps-5" name="email" placeholder="ايميل">
+                    <input class=" form-control ps-5" name="number" placeholder="شماره تماس">
+                    <input class=" form-control ps-5" name="username" placeholder="نام كاربرى">
+                    <button type="submit" class="btn btn-outline-success px-5">بگرد</button>
+                </div>
+            </form>
+        </div>
+        <div class="table-responsive mt-3">
+            <table class="table align-middle">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>نام كاربری</th>
+                        <th>ايميل</th>
+                        <th>شماره تماس</th>
+                        <th>حذف شده</th>
+                        <th>فعال شده</th>
+                        <th>دستورات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ListUsers)
+                    {
+                        <tr>
+                            <td>@item.UserName</td>
+                            <td>
+                                @item.Email
+                            </td>
+                            <td>@item.PhoneNumber</td>
+                            <td>
+                                @if(item.IsDelete)
+                                {
+                                    <span class="text-danger">
+                                        حذف شده
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-success">
+                                        حذف نشده
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                @if (!item.IsActive)
+                                {
+                                    <span class="text-danger">
+                                        فعال نشده
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-success">
+                                       فعال شده
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                <a href="/Admin/ManageUsers/Delete/@item.Id" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Delete" aria-label="Delete">
+                                    <ion-icon name="trash-outline" role="img" class="md hydrated" aria-label="trash outline"></ion-icon>
+                                </a>
+                                <a href="/Admin/ManageUsers/Edit/@item.Id" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit">
+                                    <ion-icon name="pencil-outline" role="img" class="md hydrated" aria-label="pencil outline"></ion-icon>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@if ((int)ViewData["count"] > 1)
+{
+    <div class="text-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination round-pagination">
+                @for (int i = 1; i <= (int)ViewData["count"]; i++)
+                {
+                    <li class="page-item">
+                        <a class="page-link @((int)ViewData["pageId"] == i?"active":"")" href="/Admin/ManageUsers?pageId=@i">@i</a>
+                    </li>
+                }
+            </ul>   
+        </nav>
+    </div>
+}

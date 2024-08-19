@@ -1,0 +1,91 @@
+﻿@using Kalamarket.Core.Convartor
+@using Kalamarket.Core.DTOs.Order
+@model List<ShowMyOrdersViewModel>
+<style>
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table-profile-orders {
+        width: 100%;
+        min-width: 600px; /* یا هر مقداری که مناسب جدول شماست */
+    }
+
+    /* استایل‌های اضافی برای جداول */
+    th, td {
+        white-space: nowrap;
+    }
+</style>
+
+<div class="container-main">
+    <div class="d-block">
+        <section class="profile-home">
+            <div class="col-lg">
+                <div class="post-item-profile order-1 d-block">
+                    <partial name="_SideBar" />
+                    <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                        <div class="profile-content">
+                            <div class="profile-stats">
+                                <div class="table-orders table-responsive">
+                                    <table class="table table-profile-orders">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">تاریخ ثبت سفارش</th>
+                                                <th scope="col">پرداخت</th>
+                                                <th scope="col">مجموع</th>
+                                                <th scope="col">وضعیت</th>
+                                                <th scope="col">جزئیات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td>@item.CreateDate.Toshamsi()</td>
+
+                                                    @if (item.IsFinaly)
+                                                    {
+                                                        <td class="Waiting text-success">
+                                                            پرداخت شده
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="color:red">
+                                                            پرداخت نشده
+                                                        </td>
+                                                    }
+
+                                                    <td class="totla">
+                                                        <span class="amount">
+                                                            @item.OrderSum.ToString("#,0")
+                                                            <span>تومان</span>
+                                                        </span>
+                                                    </td>
+                                                    <td class="totla">
+                                                        @item.OrderStatus
+                                                    </td>
+                                                    @if (item.IsFinaly)
+                                                    {
+                                                        <td class="detail"><a href="/UserPanel/ShowOrder/@item.OrderId" class="btn btn-secondary d-block">نمایش</a></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="detail"><a href="/Product/ShowCart" class="btn btn-secondary d-block">نمایش</a></td>
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

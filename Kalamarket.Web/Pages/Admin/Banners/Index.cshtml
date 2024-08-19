@@ -1,0 +1,43 @@
+﻿@page
+@model Kalamarket.Web.Pages.Admin.Banners.IndexModel
+@{
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex align-items-center">
+            <h5 class="mb-0">ليست بنر ها </h5>
+        </div>
+        <div class="table-responsive mt-3">
+            <table class="table align-middle">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>تصوير بنر</th>
+                        <th>دستورات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ListBanner)
+                    {
+                        <tr>
+                            <td>
+                                <img src="~/Banners/@item.ImageName" style="height:130px;width:130px" />
+                            </td>
+                            <td>
+                                <a href="/Admin/Banners/Delete/@item.BannerId" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Delete" aria-label="Delete">
+                                    <ion-icon name="trash-outline" role="img" class="md hydrated" aria-label="trash outline"></ion-icon>
+                                </a>
+                                <a href="/Admin/Banners/Edit/@item.BannerId" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit">
+                                    <ion-icon name="pencil-outline" role="img" class="md hydrated" aria-label="pencil outline"></ion-icon>
+                                </a>
+                                <a href="/Admin/Banners/Detalis/@item.BannerId" class="text-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="detail info" aria-label="detail">
+                                    <ion-icon name="eye-outline" role="img" class="md hydrated" aria-label="detail outline"></ion-icon>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

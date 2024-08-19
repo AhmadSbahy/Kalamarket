@@ -1,0 +1,62 @@
+﻿@page
+@model Kalamarket.Web.Pages.Admin.Roles.CreateModel
+
+@{
+	ViewData["Title"] = "Create";
+}
+<form method="post">
+	<div class="col-12">
+		<label for="Product_ProductName" class="form-label">عنوان نقش</label>
+		<input class="form-control mb-3" asp-for="Role.RoleTitle" placeholder="عنوان نقش" aria-label="default input example">
+		<span class="text text-danger" asp-validation-for="Role.RoleTitle"></span>
+	</div>
+	<label class="form-label">دسترسى هاى نقش</label>
+	<div class="border p-2">
+
+		@foreach (var per in Model.Permissions.Where(p => p.ParentId == null))
+		{
+			<ul>
+				<li>
+					<div class="form-check">
+						<label class="form-check-label" for="flexCheckChecked">@per.PermissionTitle</label>
+						<input class="form-check-input" name="selectedperm" type="checkbox" value="@per.PermissionId" id="flexCheckChecked" />
+					</div>
+				</li>
+
+				@if (Model.Permissions.Any(p => p.ParentId == per.PermissionId))
+				{
+					<ul>
+
+						@foreach (var sub in Model.Permissions.Where(p => p.ParentId == per.PermissionId))
+						{
+							<li>
+								<div class="form-check">
+									<label class="form-check-label" for="flexCheckChecked">@sub.PermissionTitle</label>
+									<input class="form-check-input" name="selectedperm" type="checkbox" value="@sub.PermissionId" id="flexCheckChecked" />
+								</div>
+							</li>
+							@if (Model.Permissions.Any(p => p.ParentId == sub.PermissionId))
+							{
+								<ul>
+
+									@foreach (var sub2 in Model.Permissions.Where(p => p.ParentId == sub.PermissionId))
+									{
+										<li>
+											<div class="form-check">
+												<label class="form-check-label" for="flexCheckChecked">@sub2.PermissionTitle</label>
+												<input class="form-check-input" name="selectedperm" type="checkbox" value="@sub2.PermissionId" id="flexCheckChecked" />
+											</div>
+										</li>
+									}
+								</ul>
+
+							}
+						}
+						</ul>
+				}
+			</ul>
+		}
+
+	</div>
+	<button type="submit" class="btn btn-outline-success px-5 mb-3">افزودن</button>
+</form>

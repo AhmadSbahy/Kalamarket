@@ -1,0 +1,12 @@
+﻿@page "{id}"
+@model Kalamarket.Web.Pages.Admin.ManageUsers.DeleteModel
+@{
+}
+<form method="post">
+	<input type="hidden" name="id" value="@Model.User.UserId"/>
+	<input class="form-control mb-3" asp-for="User.FullName" placeholder="نام ونام خانوادگی" disabled readonly aria-label="default input example">
+	<input class="form-control mb-3" asp-for="User.UserName" placeholder="نام كاربری" disabled readonly aria-label="default input example">
+	<input class="form-control mb-3" asp-for="User.Email" placeholder="ايميل" disabled readonly aria-label="default input example">
+	<input class="form-control mb-3" asp-for="User.PhoneNumber" maxlength="11" type="text" disabled readonly placeholder="شماره تماس" aria-label="default input example">
+	<button type="submit" class="btn btn-outline-danger px-5 mb-3">حذف</button>
+</form>

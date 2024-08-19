@@ -1,0 +1,24 @@
+﻿@using Kalamarket.DataLayer.Eintitys.Groups
+@model IEnumerable<Group>
+@foreach (var group in Model.Where(g => g.GroupParentId == null))
+{
+	<li id="nav-menu-item" class="menu-item nav-overlay">
+		<a href="/Product?selectedGroups=@group.GroupId" class="current-link-menu">
+			@group.GroupTitle
+			<i class="fa fa-angle-down"></i>
+		</a> 
+		@foreach (var item in Model.Where(s => s.GroupParentId == group.GroupId))
+		{
+			<ul class="sub-menu is-mega-menu-small">
+				@foreach (var sub in Model.Where(s => s.GroupParentId == group.GroupId))
+				{	
+					<li class="menu-mega-item menu-item-type-mega-menu item-small">
+						<a href="/Product?selectedGroups=@sub.GroupId" class="mega-menu-link">
+							@sub.GroupTitle
+						</a>
+					</li>
+				 } 
+			</ul>
+		}
+	</li>
+}

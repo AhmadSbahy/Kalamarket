@@ -1,0 +1,37 @@
+﻿@using Kalamarket.Core.DTOs.Index
+@using Microsoft.VisualBasic
+@model IndexGroupsViewModel
+@foreach (var product in Model.Products)
+{
+	<div class="owl-item active" style="width: 309.083px; margin-left: 10px;">
+		<div class="item">
+			<a href="/Details/@product.ProductId" class="d-block hover-img-link">
+				<img src="~/Product/Thumb/@product.FirstImage" class="img-fluid" alt="">
+			</a>
+			<h2 class="post-title">
+				<a href="/Details/@product.ProductId">
+					@product.ProductName
+				</a>
+			</h2>
+			@if (product.ProductDiscount != null && product.ProductDiscount.StartDate <= DateTime.Now && product.ProductDiscount.EndDate >= DateTime.Now)
+			{
+				<div class="price">
+					<del style="color: red;font-size: large;">@product.Price تومان</del>
+					@{
+						var price = double.Parse(product.Price.Replace(",", "")) * (1 - (double)product.ProductDiscount.DiscountPercent / 100);
+					}
+					<h5 style="color: #6fc341;font-size: 22px;">@price.ToString("#,0 تومان")</h5>
+				</div>
+			}
+			else
+			{
+				<div class="price">
+					<ins><span>@product.Price تومان</span></ins>
+				</div>
+			}
+		</div>
+	</div>
+
+
+}
+

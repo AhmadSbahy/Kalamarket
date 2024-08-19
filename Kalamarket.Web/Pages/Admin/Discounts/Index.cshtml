@@ -1,0 +1,69 @@
+﻿@page
+@using Kalamarket.Core.Convartor
+@model Kalamarket.Web.Pages.Admin.Discounts.IndexModel
+@{
+
+}
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex align-items-center">
+            <h5 class="mb-0">ليست كد هاى تخفيف </h5>
+            <form class="ms-auto position-relative">
+                <div class="input-group">
+                    <input class=" form-control ps-5" name="number" placeholder="شماره تماس">
+                    <button type="submit" class="btn btn-outline-success px-5">بگرد</button>
+                </div>
+            </form>
+        </div>
+        <div class="table-responsive mt-3">
+            <table class="table align-middle">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>كد تخفيف</th>
+                        <th>درصد تخفيف</th>
+                        <th>تعداد</th>
+                        <th>شروع</th>
+                        <th>پايان</th>
+                        <th>دستورات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Discounts)
+                    {
+                        <tr>
+                            <td>@item.DiscountCode</td>
+                            <td>@item.DiscountPersent</td>
+                            <td>@((item.UsableCount != null) ? item.UsableCount : "ندارد")</td>
+                            <td>@((item.StartDate != null) ? item.StartDate.Value.Toshamsi() : "ندارد")</td>
+                            <td>@((item.EndDate != null) ? item.EndDate.Value.Toshamsi() : "ندارد")</td>
+                            <td>
+                                <a href="/Admin/Discounts/Delete/@item.DiscountId" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Delete" aria-label="Delete">
+                                    <ion-icon name="trash-outline" role="img" class="md hydrated" aria-label="trash outline"></ion-icon>
+                                </a>
+
+                                <a href="/Admin/Discounts/Edit/@item.DiscountId" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Edit info" aria-label="Edit">
+                                    <ion-icon name="pencil-outline" role="img" class="md hydrated" aria-label="pencil outline"></ion-icon>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@if ((int)ViewData["count"] > 1)
+{
+    <div class="text-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination round-pagination">
+                @for (int i = 1; i <= (int)ViewData["count"]; i++)
+                {
+                    <li class="page-item">
+                        <a class="page-link @((int)ViewData["pageId"] == i?"active":"")" href="/Admin/Discounts?pageId=@i">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+}

@@ -1,0 +1,56 @@
+﻿@using Kalamarket.Core.DTOs.UserPanel
+@model EditeUserInformationViewModel
+@{
+    ViewData["Title"] = "ويرايش حساب كاربري";
+}
+<div class="container-main">
+    <div class="d-block">
+        <section class="profile-home">
+            <div class="col-lg">
+                <div class="post-item-profile order-1 d-block">
+                    <partial name="_SideBar"/>
+                    <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                        <div class="profile-content">
+                            <div class="profile-stats">
+                                <div class="profile-address">
+                                    <div class="middle-container">
+                                        <form asp-area="UserPanel" asp-controller="Home" asp-action="EditInformation" class="form-checkout">
+                                            <div class="form-checkout-row">
+
+                                                <label for="namelast">نام نام خانوادگی <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                <input asp-for="FullName"  class="input-namelast-checkout form-control">
+
+                                                <label for="email">ایمیل <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                <input asp-for="Email"  class="input-email-checkout form-control"> 
+                                                
+                                                <label for="email">شماره تماس <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                <input asp-for="PhoneNumber" maxlength="11" class="input-email-checkout form-control">
+                                                <span class="text text-danger" asp-validation-for="PhoneNumber"></span>
+
+                                                <label for="password">رمز عبور فعلی <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                <input asp-for="OldPassword"  class="input-password-checkout form-control">
+                                                <span class="text text-danger" asp-validation-for="OldPassword"></span>
+
+                                                <label for="password">رمز عبور جدید <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                <input  asp-for="NewPassword" class="input-password-checkout form-control">
+                                                <span class="text text-danger" asp-validation-for="NewPassword"></span>
+
+                                                <label for="password">تکرار رمز عبور جدید <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                <input asp-for="ReNewPassword" class="input-password-checkout form-control">
+                                                <span class="text text-danger" asp-validation-for="ReNewPassword"></span>
+                                                <div class="AR-CR">
+                                                    <button type="submit" class="btn-registrar"> ثبت تغییرات </button>
+                                                    <a href="/UserPanel" class="cancel-edit-address" data-dismiss="modal" aria-label="Close">بازگشت</a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+﻿@page
+@using Kalamarket.DataLayer.Eintitys.User
+@model Kalamarket.Web.Pages.Admin.ManageUsers.AddModel
+@{
+	List<Role> roles = ViewData["Roles"] as List<Role>;
+}
+<form method="post">
+	<input class="form-control mb-3" asp-for="User.FullName" placeholder="نام ونام خانوادگی" aria-label="default input example">
+	<input class="form-control mb-3" asp-for="User.Username" placeholder="نام كاربری" aria-label="default input example">
+	<input class="form-control mb-3" asp-for="User.Email" placeholder="ايميل" aria-label="default input example">
+	<span asp-validation-for="User.Email" class="text-danger"></span>
+	<input class="form-control mb-3" asp-for="User.Password" placeholder="كلمه عبور" aria-label="default input example">
+	<input class="form-control mb-3" asp-for="User.Phonenmumber" maxlength="11" type="text" placeholder="شماره تماس" aria-label="default input example">
+	<p>
+		<span asp-validation-for="User.Phonenmumber" class="text-danger"></span>
+	</p>
+	<label class="form-label">نقش هاى كاربر</label>
+	@if (roles != null && roles.Any())
+	{
+		<div class="border p-2">
+
+			@foreach (var item in roles)
+			{
+				<div class="form-check">
+					<label class="form-check-label" for="flexCheckChecked">@item.RoleTitle</label>
+					<input class="form-check-input" name="rolesId" type="checkbox" value="@item.RoleId" id="flexCheckChecked" />
+				</div>
+			}
+
+		</div>
+	}
+
+	else
+	{
+		<div class="alert alert-warning">
+			نقشى وجود ندارد
+		</div>
+	}
+	<button type="submit" class="btn btn-outline-success px-5 mb-3">افزودن</button>
+</form>

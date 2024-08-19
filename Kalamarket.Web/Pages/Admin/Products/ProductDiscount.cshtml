@@ -1,0 +1,99 @@
+﻿@page
+@model Kalamarket.Web.Pages.Admin.Products.ProductDiscountModel
+@{
+}
+<div class="card">
+	<div class="card-body">
+		<div class="d-flex align-items-center">
+			<h5 class="mb-0">ليست محصولات سايت</h5>
+			<form method="get" class="ms-auto position-relative">
+				<div class="input-group">
+					<input class=" form-control ps-5" name="name" placeholder="نام محصول">
+					<select class="form-select" name="ordertype">
+						<option value="">انتخاب كنيد</option>
+						<option value="Expensive">گرانترين</option>
+						<option value="Cheap">ارزان ترين</option>
+						<option value="MostSell">بيشترين فروش</option>
+						<option value="LessSell">كمترين فروش</option>
+					</select>
+					<button type="submit" class="btn btn-outline-success px-5">بگرد</button>
+				</div>
+			</form>
+		</div>
+		<div class="table-responsive mt-3">
+			<table class="table align-middle">
+				<thead class="table-secondary">
+					<tr>
+						<th>تصوير محصول</th>
+						<th>نام محصول</th>
+						<th>نام فروشنده</th>
+						<th>تعداد فروش</th>
+						<th>قيمت</th>
+						<th>دستورات</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model.Products)
+					{
+						<tr>
+							<td>
+								<img src="~/Product/Thumb/@item.ImageName" style="max-height:140px" />
+							</td>
+							<td>
+								@item.Name
+							</td>
+							<td>@item.SellerName</td>
+
+							<td>
+								@item.SellCount
+							</td>
+							<td>
+								@if (item.ProductDiscount != null && item.ProductDiscount.StartDate <= DateTime.Now && item.ProductDiscount.EndDate >= DateTime.Now)
+								{
+									<del style="color:red">@item.ProductPrice.ToString("#,0 تومان")</del>
+									var price = (double)item.ProductPrice * (1 - (double)item.ProductDiscount.DiscountPercent / 100);
+									<h6 style="color:green">@price.ToString("#,0 تومان")</h6>
+								}
+								else
+								{
+									@item.ProductPrice.ToString("#,0 تومان")
+								}
+
+							</td>
+							<td>
+								@if (item.ProductDiscount == null)
+								{
+									<div class="col">
+										<a href="/Admin/Products/Addproductdiscount/@item.ProductId" type="button" class="btn btn-sm btn-outline-primary px-5"><ion-icon name="pricetags-sharp" role="img" class="md hydrated" aria-label="pricetags sharp"></ion-icon>تخفیف</a>
+									</div>
+								}
+								else
+								{
+									<div class="container">
+										<a href="/Admin/Products/Deleteproductdiscount/@item.ProductDiscount.DiscountId" type="button" class="btn btn-sm btn-outline-danger px-2"><ion-icon name="pricetags-sharp" role="img" class="md hydrated" aria-label="pricetags sharp"></ion-icon>حذف تخفیف</a>
+										<a href="/Admin/Products/Editproductdiscount/@item.ProductDiscount.DiscountId" type="button" class="btn btn-sm btn-outline-warning px-2"><ion-icon name="pricetags-sharp" role="img" class="md hydrated" aria-label="pricetags sharp"></ion-icon>ویرایش تخفیف</a>
+									</div>
+								}
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+@if ((int)ViewData["count"] > 1)
+{
+	<div class="text-center">
+		<nav aria-label="Page navigation example">
+			<ul class="pagination round-pagination">
+				@for (int i = 1; i <= (int)ViewData["count"]; i++)
+				{
+					<li class="page-item">
+						<a class="page-link @((int)ViewData["pageId"] == i?"active":"")" href="/Admin/Products?pageId=@i">@i</a>
+					</li>
+				}
+			</ul>
+		</nav>
+	</div>
+}

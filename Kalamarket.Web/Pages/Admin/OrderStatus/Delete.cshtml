@@ -1,0 +1,26 @@
+﻿@page
+@model Kalamarket.Web.Pages.Admin.OrderStatus.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>حذف</h1>
+<div>
+    <h4>وضعیت سفارش</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            عنوان وضعیا
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OrderStatus.StatusTitle)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="OrderStatus.OrderStatusId" />
+        <input type="submit" value="حذف" class="btn btn-danger" /> |
+        <a asp-page="./Index">بازگشت</a>
+    </form>
+</div>

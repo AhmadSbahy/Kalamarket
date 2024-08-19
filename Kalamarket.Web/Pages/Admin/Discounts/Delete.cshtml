@@ -1,0 +1,41 @@
+﻿@page "{id}"
+@using Kalamarket.Core.Convartor
+@model Kalamarket.Web.Pages.Admin.Discounts.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+<h3>ايا از حذف "@Model.Discount.DiscountCode" مطمين هستيد؟</h3>
+<div>
+
+		<input type="hidden" asp-for="Discount.DiscountId" />
+		<div class="mb-4">
+			<label for="Product_ProductName" class="form-label">كد تخفيف</label>
+		<input class="form-control mb-3" r asp-for="Discount.DiscountCode" readonly placeholder="كد تخفيف" aria-label="default input example">
+
+		</div>
+		<div class="mb-4">
+			<label for="Product_ProductName" class="form-label">درصد تخفيف</label>
+		<input class="form-control mb-3" asp-for="Discount.DiscountPersent" readonly placeholder="درصد تخفيف" aria-label="default input example">
+
+		</div>
+		<div class="mb-4">
+			<label for="Product_ProductName" class="form-label">تعداد استفاده (اختيارى)</label>
+		<input class="form-control mb-3" asp-for="Discount.UsableCount" readonly placeholder="تعداد استفاده" aria-label="default input example">
+
+		</div>
+		<div class="mb-4">
+			<label for="Product_ProductName" class="form-label">تاريخ شروع</label>
+		<input type="text" id="stDate" name="stDate" readonly autocomplete="off" value="@((Model.Discount.StartDate != null) ? Model.Discount.StartDate.Value.Toshamsi() : "")" />
+
+		</div>
+		<div class="mb-4">
+			<label for="Product_ProductName" class="form-label">تاريخ انتها</label>
+		<input type="text" id="edDate" name="edDate" readonly autocomplete="off" value="@((Model.Discount.EndDate != null) ? Model.Discount.EndDate.Value.Toshamsi() : "")" />
+
+		</div>
+    <form method="post">
+        <input type="hidden" asp-for="Discount.DiscountId" />
+        <input type="submit" value="حذف" class="btn btn-danger" />
+    </form>
+</div>

@@ -1,0 +1,74 @@
+﻿@{
+	ViewData["Title"] = "تاييد كد";
+	Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg">
+			<section class="page-account-box">
+				<div class="col-lg-6 col-md-6 col-xs-12 mx-auto">
+					<div class="ds-userlogin">
+						<a href="/" class="account-box-logo">digismart</a>
+						<div class="account-box">
+							<div class="Login-to-account mt-4">
+								<div class="account-box-content">
+									<div class="message-light">
+										<form asp-action="CheckCode" method="post">
+											<div class="account-box-verify-content">
+												<div class="form-account">
+														<div class="form-account-title">
+
+															کد فعال سازی ارسال شده  به ايميل زير را وارد کنید
+														</div>
+													<p class="form-account-title">
+
+															@ViewBag.Email
+													</p>
+													<div class="form-account-row">
+														<div class="lines-number-input" id="codeInputContainer">
+															<input type="hidden" name="code" id="codeHiddenInput">
+															@for (int i = 0; i < 5; i++)
+															{
+																<input class="line-number-account" maxlength="1" oninput="updateCode(this, @i)" data-index="@i">
+															}
+															<input type="hidden" name="email" value="@ViewBag.Email"/>
+														</div>
+														@if (ViewBag.NotFound != null)
+														{
+															<span class="text text-danger">کد وارد شده صحیح نمی باشد</span>
+														}
+													</div>
+												</div>
+											</div>
+											<div class="account-footer">
+												<div class="account-footer">
+													<div class="form-row-account">
+															<button type="submit" class="btn btn-primary btn-login">ثبت‌نام در دیجی‌اسمارت</button>
+													</div>
+												</div>
+											</div> 
+											<script>
+											function updateCode(input, index) {
+												const nextInput = document.querySelector(`input[data-index='${index + 1}']`);
+												if (input.value.length === input.maxLength && nextInput) {
+													nextInput.focus();
+												}
+												let code = '';
+												const inputs = document.querySelectorAll('.line-number-account');
+												inputs.forEach(input => code += input.value);
+												document.getElementById('codeHiddenInput').value = code;
+											}
+											</script>
+
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>

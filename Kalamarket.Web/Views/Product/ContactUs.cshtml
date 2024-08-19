@@ -1,0 +1,88 @@
+﻿@using Kalamarket.DataLayer.Eintitys.ContactUs
+@model ContactUs
+@{
+    List<Subject> AllSub = ViewBag.Subjects as List<Subject>;
+}
+<div class="container-main">
+    <div class="col-12">
+        <div id="content">
+            <div class="contact-us">
+                <div class="col-lg-9 col-md-9 col-xs-12 mx-auto">
+                    <div class="contact-us-section">
+                        <div class="box-header">
+                            <span class="box-title">تماس با کالامارکت</span>
+                        </div>
+                        <div class="contact-us-row">
+                            <p>برای پیگیری یا سوال درباره سفارش و ارسال پیام بهتر است از فرم زیر استفاده کنید.</p>
+                        </div>
+                        <form asp-controller="Product" asp-action="ContactUs" id="contactForm" class="contact-us-form">
+                            <div class="contact-us-row contact-us-row--align-top">
+                                <label for="#" class="form-field-container">
+                                    <div class="form-field-label">موضوع*</div>
+                                    <div class="custom-select-ui">
+                                        <select name="contact.SubjectId" class="right" style="display: none;">
+                                            <option value="0">-- انتخاب موضوع --</option>
+                                                @foreach (var item in AllSub)
+                                                {
+                                                    <option value="@item.SubjectId">@item.SubjectName</option>
+                                                }
+                                        </select>
+                                        <span class="text-danger" asp-validation-for="SubjectId"></span>
+                                    </div>
+                                </label>
+                                <label for="#" class="form-field-container">
+                                    <div class="form-field-label">عنوان*</div>
+                                    <div class="form-field-frame">
+                                        <input name="contact.MassageTitle" type="text" placeholder="" class="form-field js-input-field form-control">
+                                        <span class="text-danger" asp-validation-for="MassageTitle"></span>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="contact-us-row contact-us-row--align-bottom">
+                                <label for="#" class="form-field-container w-100">
+                                    <div class="form-field-label">متن پیام*</div>
+                                    <div class="form-field-frame">
+                                        <textarea name="contact.Massagebody" type="text" placeholder="" class="form-field js-input-field form-control"></textarea>
+                                        <span name="contact.Massagebod" class="text-danger" asp-validation-for="Massagebody"></span>
+                                    </div>
+                                </label>
+                            </div>
+                                <div class="contact-us-row contact-us-row-align-left text-left d-block pl-3">
+                                    <button type="submit" class="btn btn-info js-contact-form-submit">
+                                        ثبت و ارسال
+                                    </button>
+                                </div>
+                           
+                        </form>
+                        <div class="box-header">
+                            <span class="box-title">اطلاعات کالامارکت</span>
+                        </div>
+                        <div class="contact-us-row">
+                            <div class="contact-us-address-container">
+                                <div class="contact-us-address-header">
+                                    دفتر مرکزی
+                                </div>
+                                <div class="contact-us-address-text">
+                                    استان تهران - شهر تهران - خیابان گاندی جنوبی - نبش خیابان ۲۱ - پلاک ۲۸
+                                </div>
+                                <div class="contact-us-address-header">
+                                    تماس با گارانتی
+                                </div>
+                                <div class="contact-us-address-text">
+                                    برای پیگیری کالاهایی که با کارت گارانتی کالامارکت به فروش می رسند با شماره
+                                    ۶۱۹۳۰۰۱۰−۰۲۱ تماس بگیرید
+                                </div>
+                                <div class="contact-us-address-header">
+                                    ایمیل سازمانی
+                                </div>
+                                <div class="contact-us-address-text">
+                                    info@kalamarket.com
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

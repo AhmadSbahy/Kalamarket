@@ -1,0 +1,43 @@
+﻿@page "{id}"
+@using Kalamarket.Core.Convartor
+@model Kalamarket.Web.Pages.Admin.Blogs.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+<h3>ايا از حذف "@Model.Blog.BlogTitle" مطمين هستيد ؟</h3>
+<div>
+    <hr />
+    <dl class="row">
+       
+        <dt class="col-sm-2">
+            عنوان
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Blog.BlogTitle)
+        </dd>
+        <dt class="col-sm-2">
+            بازديد ها
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Blog.Views)
+        </dd>
+        <dt class="col-sm-2">
+           تاريخ
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Blog.CreateDate.Toshamsi()
+        </dd>
+        <dt class="col-sm-2">
+            نام منتشر كننده
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Blog.User.FullName)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Blog.BlogId" />
+        <input type="submit" value="حذف" class="btn btn-danger" />
+    </form>
+</div>

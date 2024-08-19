@@ -1,0 +1,106 @@
+﻿@using Kalamarket.Core.Convartor
+@using Kalamarket.Core.DTOs.Blog
+@model Tuple<List<IndexBlogViewModel>,int>
+<style>
+	.post-item {
+		display: flex;
+		flex-direction: row;
+	}
+
+		.post-item > div {
+			margin-right: 15px; /* فاصله بین تصویر و متن */
+		}
+
+	.post-content {
+		flex: 1; /* محل قرارگیری متن در اطراف تصویر */
+	}
+
+	.post-date {
+		display: block;
+		margin-top: 10px; /* فاصله بین متن و تاریخ */
+	}
+
+</style>
+<main class="main-row mb-2 mt-2" style="transform: none;">
+	<div class="container-main" style="transform: none;">
+		<div class="d-block" style="transform: none;">
+			<div class="col-lg-9 col-md-8 col-xs-12 pr mt-3">
+				<section class="content-widget">
+					@foreach (var item in Model.Item1)
+					{
+						<article class="post-item">
+							<div>
+								<a href="/SingleBlog/@item.BlogId" class="d-block">
+									<img class="rounded" src="~/Blog/@item.Image" alt="@item.Title" style="width:260px;height:140px" />
+								</a>
+							</div>
+							<div class="post-content">
+								<div class="title">
+									<a href="/SingleBlog/@item.BlogId">
+										<h2 class="title-tag">
+											@item.Title
+										</h2>
+									</a>
+									<p>
+										<div class="excerpt">
+											@Html.Raw(item.SomeDescripton)
+										</div>
+									</p>
+								</div>
+								<span class="post-date">
+									<i class="fa fa-calendar"></i>
+									@item.CreateDate.Toshamsi()
+								</span>
+							</div>
+						</article>
+					}
+
+				</section>
+			</div>
+			@{
+				List<NewBlogViewModel> sModel = ViewBag.SideBar as List<NewBlogViewModel>;
+			}
+			<partial name="_BlogSide" />
+			<div class="pagination-product pr-3 pl-3 pr">
+				@if (Model.Item2 > 1)
+				{
+					<form id="formfilter" action="/Blog" method="get">
+						<input type="hidden" id="pageId" name="pageId" value="@ViewBag.pageId.ToString()" />
+						<nav aria-label="Page navigation example">
+							<ul class="pagination">
+								@for (int i = 1; i <= Model.Item2; i++)
+								{
+									int pageid = int.Parse(ViewBag.PageId.ToString());
+									<li class="page-item">
+										<a class="page-link @((pageid == i) ? "active" : "")" onclick="Cheng(@i)" href="#">@i</a>
+									</li>
+								}
+							</ul>
+						</nav>
+					</form>
+
+				}
+			</div>
+		</div>
+	</div>
+</main>
+<div class="progress-wrap active-progress">
+	<svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+		<path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 56.8666;"></path>
+	</svg>
+</div>
+<script>
+
+	function Cheng(id) {
+		$("#pageId").val(id);
+		$("#formfilter").submit();
+	}
+	window.addEventListener('load', function () {
+		setTimeout(function () {
+			window.scrollTo({
+				top: 3,
+				behavior: 'smooth'
+			});
+		}, 1); // 10 میلی‌ثانیه تاخیر
+	});
+</script>

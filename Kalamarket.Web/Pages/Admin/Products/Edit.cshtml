@@ -1,0 +1,93 @@
+﻿@page "{id}"
+@model Kalamarket.Web.Pages.Admin.Product.EditModel
+@{
+}
+<form method="post" enctype="multipart/form-data">
+	<input type="hidden" asp-for="Product.Images"/>
+	<input type="hidden" asp-for="Product.ProductId"/>
+	<input type="hidden" asp-for="Product.SellerId"/>
+	<input type="hidden" asp-for="Product.SellCount"/>
+	<div class="mb-4">
+		<label for="Product_ProductName" class="form-label">نام محصول</label>
+		<input class="form-control mb-3" asp-for="Product.ProductName" placeholder="نام محصول" aria-label="default input example">
+	</div>
+	<div class="mb-4">
+		<label for="Product_ProductDescription" class="form-label">توضيح محصول</label>
+		<textarea class="form-control mb-3" asp-for="Product.ProductDescription" placeholder="توضيح محصول" aria-label="default input example"> </textarea>
+	</div>
+
+	<div class="mb-4">
+		<label for="GroupId" class="form-label">گروه هاى اصلى</label>
+		<select class="form-select" id="GroupId" asp-for="Product.GroupId" asp-items="@(ViewData["Groups"] as SelectList)"></select>
+	</div>
+	<div class="mb-4">
+		<label for="SubGroup" class="form-label"> زير گروه ها</label>
+		<select class="form-select" id="SubGroup" asp-for="Product.SubGroup" asp-items="@(ViewData["SubGroups"] as SelectList)"></select>
+	</div>
+	<div class="mb-4">
+		<label for="Product_Tags" class="form-label"> تگ ها</label>
+		<input class="form-control mb-3" asp-for="Product.Tags" placeholder="تگ ها" aria-label="default input example">
+		<p class="text-muted">تگ ها را با '-' جدا كنيد</p>
+	</div>
+	<div class="mb-4">
+		<label for="Product_ProductProperty" class="form-label">ویژگی‌ ها</label>
+		<input class="form-control mb-3" asp-for="Product.ProductProperty" placeholder="ویژگی‌ ها" aria-label="default input example">
+		<p class="text-muted">ویژگی‌ ها را با '-' جدا كنيد</p>
+	</div>
+	<div class="mb-4">
+		<label for="Product_QuantityStock" class="form-label">تعداد در انبار </label>
+		<input class="form-control mb-3" asp-for="Product.QuantityStock" placeholder="تعداد در انبار " aria-label="default input example">
+	</div>
+	<div class="mb-4">
+		<label for="Product_WarrantyMonthDate" class="form-label">گارانتی</label>
+		<input class="form-control mb-3" asp-for="Product.WarrantyMonthDate" placeholder="گارانتی " aria-label="default input example">
+		<p class="text-muted">گارانتی به ماه مى باشد</p>
+	</div>
+	<div class="mb-4">
+		<label for="Product_ProductPrice" class="form-label">قيمت</label>
+		<input type="number" class="form-control mb-3" asp-for="Product.ProductPrice" placeholder="قيمت" aria-label="default input example">
+		<p class="text-muted">قيمت به تومان مى باشد</p>
+	</div>
+	<div class="mb-4">
+		<label for="Product_Goodpoints" class="form-label">نقاط قوت</label>
+		<input class="form-control mb-3" asp-for="Product.Goodpoints" placeholder="نقاط قوت" aria-label="default input example">
+		<p class="text-muted">نقاط قوت‌ ها را با '-' جدا كنيد</p>
+	</div>
+	<div class="mb-4">
+		<label for="Product_Badpoints" class="form-label">نقاط ضعف</label>
+		<input class="form-control mb-3" asp-for="Product.Badpoints" placeholder="نقاط ضعف" aria-label="default input example">
+		<p class="text-muted">نقاط ضعف ها را با '-' جدا كنيد</p>
+	</div>
+	<div class="mb-3">
+		<label for="file" class="form-label">تصاوير محصول</label>
+		<input class="form-control" type="file" id="file" name="file" multiple />
+	</div>
+	<div class="alert alert-danger">
+		توجه داشته باشيد كه موقع انتخاب عكس جديد تمام عكس هاى قبلى شما حذف ميشوند
+	</div>
+	<button type="submit" class="btn btn-outline-warning px-5 mb-3">ويرايش</button>
+</form>
+@section Scripts {
+	<script>
+		$("#GroupId").change(function () {
+			$("#SubGroup").empty();
+			$.getJSON("/home/GetSubGroup/" + $("#GroupId :selected").val(),
+				function (data) {
+
+					$.each(data,
+						function () {
+							$("#SubGroup").append('<option value=' + this.value + '>' + this.text + '</option>');
+						});
+
+				});
+		});
+	</script>
+	<script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+	<script>
+
+		CKEDITOR.replace('Product_ProductDescription', {
+			customConfig: '/assets/js/Config.js'
+		});
+
+	</script>
+}

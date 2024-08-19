@@ -1,0 +1,31 @@
+﻿@page
+@model Kalamarket.Web.Pages.Admin.OrderStatus.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               عنوان وضعیت
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.OrderStatus) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusTitle)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.OrderStatusId">ویراش</a> |
+                <a asp-page="./Details" asp-route-id="@item.OrderStatusId">جزییات</a> |
+                <a asp-page="./Delete" asp-route-id="@item.OrderStatusId">حذف</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

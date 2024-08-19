@@ -1,0 +1,117 @@
+﻿@using Kalamarket.Core.Convartor
+@using Kalamarket.Core.Service.Interface
+@using Kalamarket.DataLayer.Eintitys.Blog
+@model Blog
+@inject IUserSrvice _user
+@{
+	string fullname = _user.GetUserFullNameById(Model.UserId);
+}
+<main class="main-row mb-2 mt-2 d-block" style="transform: none;">
+	<div class="container-main" style="transform: none;">
+		<div class="d-block" style="transform: none;">
+			<div class="col-lg-9 col-md-8 col-xs-12 pr mt-3">
+				<section class="blog-home">
+					<article class="post-item">
+						<header class="entry-header mb-3">
+							<div class="post-meta date">
+								<i class="mdi mdi-calendar-month"></i>@Model.CreateDate.Toshamsi()
+							</div>
+							<div class="post-meta author">
+								<i class="mdi mdi-account-circle-outline"></i>
+								ارسال شده توسط  @fullname
+							</div>@*
+							<div class="post-meta Visit">
+							<i class="mdi mdi-eye"></i>
+							@Model.Views.ToString("#,0") بازدید
+							</div> *@
+						</header>
+						<div class="post-thumbnail">
+							<img src="~/Blog/@Model.ImageName">
+						</div>
+						<div class="title">
+
+							<h1 class="title-tag">
+								@Model.BlogTitle
+							</h1>
+						</div>
+						<div class="content-blog">
+							@Html.Raw(Model.BlogDescription)
+						</div>
+					</article>
+					<div class="post-comments">
+						<div class="form-comment">
+							<div class="col-md-12 col-sm-12">
+								<h2 class="comments-title">
+									<i class="fa fa-comment-o"></i>
+									نظرات کاربران
+									<p class="count-comment">@Model.BlogComments.Count() نظر</p>
+								</h2>
+								<form asp-controller="Blog" asp-action="AddComment" method="Post">
+									<input type="hidden" name="comment.BlogId" value="@Model.BlogId" />
+									<div class="form-ui">
+										<div class="row">
+											<div class="col-12 mt-5">
+												<div class="form-row-title mb-2">متن نظر شما (اجباری)</div>
+												<div class="form-row">
+													<textarea class="input-ui pr-2 pt-2" name="comment.CommentBody" placeholder="متن خود را بنویسید" style="height:120px;"></textarea>
+												</div>
+											</div>
+											<div class="col-12 mt-5 px-0">
+												<button type="submit" class="btn comment-submit-button">
+													ثبت نظر
+												</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+						@if (Model.BlogComments != null && Model.BlogComments.Count >= 1)
+						{
+
+							<div class="comments-area">
+								<ol class="comment-list">
+									@foreach (var item in Model.BlogComments.OrderByDescending(p => p.CreateDate))
+									{
+										<li class="comment-even">
+											<div class="comment-body">
+												<header class="comment-meta">
+													<div class="comment-author">
+														<img src="~/assets/images/man.png" class="avator">
+														توسط @item.User.FullName در تاریخ @item.CreateDate.Toshamsi()
+													</div>
+												</header>
+												<p>
+													@item.CommentBody
+												</p>
+												@if (User.Identity.IsAuthenticated && item.User.UserName == User.Identity.Name)
+												{
+													<a href="/DeleteComment/@item.BC_Id/@Model.BlogId" class="text-danger text-decoration-none">
+														<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+															<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
+															<path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
+														</svg>
+													</a>
+												}
+											</div>
+										</li>
+									}
+								</ol>
+							</div>
+						}
+					</div>
+				</section>
+			</div>
+			<partial name="_BlogSide" />
+		</div>
+	</div>
+</main>
+<script>
+
+	window.onload = function () {
+		window.scroll({
+			top: 3,
+			behavior: "instant"
+		});
+	};
+</script>

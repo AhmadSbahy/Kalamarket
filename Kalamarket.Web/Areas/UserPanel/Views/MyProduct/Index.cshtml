@@ -1,0 +1,128 @@
+﻿@model IEnumerable<Kalamarket.Core.DTOs.Product.MyProductsViewModel>
+@{
+	ViewData["Title"] = "Index";
+}
+<style>
+	.table-responsive {
+		display: block;
+		width: 100%;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	/* استایل‌های اضافی برای جداول */
+	th, td {
+		white-space: nowrap;
+	}
+</style>
+<div class="container-main">
+	<div class="d-block">
+		<section class="profile-home">
+			<div class="col-lg">
+				<div class="post-item-profile order-1 d-block">
+					<partial name="_SideBar" />
+					<div class="col-lg-9 col-md-9 col-xs-12 pl">
+						<div class="profile-content">
+							<div class="profile-stats">
+								<div class="table-favorites table-responsive">
+									<div class="col-6 row">
+										<a href="/Admin/Products/Add" style="cursor: pointer;" class="remove-product alert alert-success">افزودن محصول</a>
+									</div>
+									<table class="table ns-table table-profile-favorites">
+										<thead>
+										<tr>
+											<th scope="col" width="50"> </th>
+											<th scope="col">نام محصول</th>
+											<th scope="col">قیمت</th>
+											<th class="actions-th">دستورات</th>
+										</tr>
+										</thead>
+										<tbody>
+										@foreach (var product in Model)
+										{
+											<tr class="spacer"></tr>
+											<tr>
+												<th scope="row">
+													<div class="favorites-product-img">
+														<a href="/Details/@product.ProductId">
+															<img style="width=70px;height:55px" src="~/Product/Image/@product.ImageName"/>
+
+														</a>
+													</div>
+												</th>
+												<td>
+													<a href="/Details/@product.ProductId">@product.ProductName</a>
+												</td>
+												<td>
+													<span class="amount">
+														@product.Price.ToString("#,0")
+														<span>تومان</span>
+													</span>
+												</td>
+												<td class="text-left actions" style="display: flex;">
+													<a onclick="EditCheke(@product.ProductId)" style="cursor: pointer;" class="alert alert-warning">
+														<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" class="bi bi-pencil" viewBox="0 0 16 16">
+															<path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"></path>
+														</svg>
+													</a>
+
+													<a style="cursor: pointer;" onclick="DeleteCheke(@product.ProductId)" class="remove-product alert alert-danger"><i class="mdi mdi-close"></i></a>
+												</td>
+											</tr>
+											<tr class="spacer"></tr>
+										}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</div>
+<script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js
+"></script>
+<script>
+		function DeleteCheke(id){
+			Swal.fire({
+	  title: "آیا مطمین هستید ؟",
+	  text: "ایا از حذف محصول خود مطمین هستید ؟",
+	  icon: "error",
+	  showCancelButton: true,
+	  confirmButtonColor: "#d33",
+	  cancelButtonColor: "",
+	  confirmButtonText: "حذف !",
+	  cancelButtonText:"انصراف"
+	}).then((result) => {
+	  if (result.isConfirmed) {
+		 $.ajax({
+			url: "/UserPanel/DeleteMyProducts/" + id,
+			type: "GET",
+			success: function (data) {
+				// بعد از حذف محصول با موفقیت، بخش مربوطه از صفحه بروزرسانی می‌شود
+				$('.table-profile-favorites').load(location.href + ' .table-profile-favorites');
+			},
+		});
+	  }
+	});
+		};
+		function EditCheke(id){
+			Swal.fire({
+	  title: "آیا مطمین هستید ؟",
+	  text: "ایا از ویرایش محصول خود مطمین هستید ؟",
+	  icon: "warning",
+	  showCancelButton: true,
+	  confirmButtonColor: "warning",
+	  cancelButtonColor: "",
+	  confirmButtonText: "ویرایش !",
+	  cancelButtonText:"انصراف"
+	}).then((result) => {
+	  if (result.isConfirmed) {
+				window.location.replace("/Admin/Products/Edit/" + id);
+	  }
+	});
+		}
+</script>

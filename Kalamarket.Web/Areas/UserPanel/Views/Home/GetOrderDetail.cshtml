@@ -1,0 +1,94 @@
+﻿@using Kalamarket.Core.Convartor
+@using Kalamarket.DataLayer.Eintitys.Order
+@model Kalamarket.Core.DTOs.Order.UserOrderViewModel
+@{
+    List<OrderStatus> orderStatusList = ViewBag.OrderStatus as List<OrderStatus>;
+}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<div class="container-main">
+    <div class="d-block">
+        <section class="profile-home">
+            <div class="col-lg">
+                <div class="post-item-profile order-1 d-block">
+                    <partial name="_SideBar" />
+                    <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                        <div class="profile-content">
+                            <div class="profile-stats">
+                                <div class="profile-comment">
+                                    <h3>جزئیات سفارش</h3>
+                                    <p><span style="color:red">نام خریدار:</span> @Model.FullName</p>
+                                    <p><span style="color:red">تاریخ سفارش:</span> @Model.CreateDate.Toshamsi()</p>
+                                    <p><span style="color:red">مبلغ کل:</span> @Model.Price</p>
+                                    <p><span style="color:red">وضعیت سفارش:</span> @Model.OrderStatus</p>
+
+                                    <form id="changeOrderStatusForm">
+	                                    <div class="mb-3">
+		                                    <label for="orderStatusSelect" class="form-label">انتخاب وضعیت جدید:</label>
+		                                    <select class="form-select form-select-sm" id="orderStatusSelect" aria-label=".form-select-sm example" style="background-color:cornsilk">
+			                                    @foreach (var item in orderStatusList)
+			                                    {
+				                                    <option value="@item.OrderStatusId">@item.StatusTitle</option>
+			                                    }
+		                                    </select>
+	                                    </div>
+                                    </form>
+
+
+                                    <hr />
+                                    <p><span style="color:red">آدرس تحویل</span>:</p>
+                                    <p><span style="color:red">نام تحویل‌گیرنده:</span> @Model.AddressForUserOrderViewModel.RecipientName</p>
+                                    <p><span style="color:red">شماره تلفن ثابت:</span> @Model.AddressForUserOrderViewModel.Landlinenumber</p>
+                                    <p><span style="color:red">شماره تماس:</span> @Model.UserPhoneNumber</p>
+                                    <p><span style="color:red">استان:</span> @Model.AddressForUserOrderViewModel.State</p>
+                                    <p><span style="color:red">پلاک:</span> @Model.AddressForUserOrderViewModel.Plate</p>
+                                    <p><span style="color:red">شهر:</span> @Model.AddressForUserOrderViewModel.City</p>
+                                    <p><span style="color:red">واحد:</span> @Model.AddressForUserOrderViewModel.Floar</p>
+                                    <p><span style="color:red">کد پستی:</span> @Model.AddressForUserOrderViewModel.PostalCode</p>
+                                    <p><span style="color:red">آدرس:</span> @Model.AddressForUserOrderViewModel.FullAddress</p>
+                                    <p><span style="color:red">توضیحات بیشتر:</span> @Model.AddressForUserOrderViewModel.AddressDescripton</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // When the user selects an option, automatically submit the form
+        $('#orderStatusSelect').change(function () {
+            var newStatusId = $(this).val(); // Get selected status ID
+
+            $.ajax({
+                url: '@Url.Action("ChangeOrderStatus", "Home")', // Replace with actual action URL
+                type: 'POST',
+                data: { orderId: @Model.UserOrderId, newStatusId: newStatusId }, // Send order ID and new status ID
+                success: function (result) {
+                    Swal.fire({
+                        position: "top-start",
+                        icon: "success",
+                        title: "وضعیت سفارش با موفقیت به روز رسانی شد.",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    // Optionally update UI or perform additional actions
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        position: "top-start",
+                        icon: "error",
+                        title: "خطا در به روز رسانی وضعیت سفارش.",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>

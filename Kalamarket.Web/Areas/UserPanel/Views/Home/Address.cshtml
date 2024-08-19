@@ -1,0 +1,87 @@
+﻿@using Kalamarket.DataLayer.Eintitys.Address
+@model Address
+@{
+    ViewData["Title"] = "ادرس";
+
+}
+<div class="container-main">
+    <div class="d-block">
+        <section class="profile-home">
+            <div class="col-lg">
+                <div class="post-item-profile order-1 d-block">
+                    <partial name="_SideBar"/>
+                    <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                        <div class="profile-content">
+                            <div class="profile-stats">
+                                <div class="profile-address">
+                                    <div class="middle-container">
+                                        <form asp-area="UserPanel" asp-controller="Home" asp-action="Address" asp-route-id="@ViewBag.AddressId" method="post" class="form-checkout">
+                                            <div class="form-checkout-row">
+                                                <label for="name">نام تحویل گیرنده <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                <input asp-for="RecipientName" class="input-name-checkout form-control">
+
+                                                <label for="fixed-number">شماره تلفن ثابت <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                                <input asp-for="Landlinenumber" class="input-name-checkout form-control text-left">
+
+                                                <div class="form-checkout-valid-row">
+                                                    <label for="province">
+                                                        استان
+                                                        <abbr class="required" title="ضروری" style="color:red;">*</abbr>
+                                                    </label>
+                                                    <input asp-for="State" class="input-name-checkout form-control text-left">
+                                                    <label for="bld-num">
+                                                        پلاک
+                                                        <abbr class="required" title="ضروری" style="color:red;">*</abbr>
+                                                    </label>
+                                                    <input asp-for="Plate" class="input-name-checkout js-input-bld-num form-control">
+
+                                                </div>
+
+                                                <div class="form-checkout-valid-row">
+                                                    <label for="city">
+                                                        شهر
+                                                        <abbr class="required" title="ضروری" style="color:red;">*</abbr>
+                                                    </label>
+                                                    <input asp-for="City" class="input-name-checkout form-control text-left">
+                                                    <label for="apt-id">واحد</label>
+                                                    <input asp-for="Floar" class="input-name-checkout js-input-apt-id form-control">
+                                                </div>
+
+                                                <label for="post-code">کد پستی</label>
+                                                <input asp-for="PostalCode" class="input-name-checkout form-control" placeholder="کد پستی را بدون خط تیره بنویسید">
+
+                                                <label for="address">
+                                                    آدرس
+                                                    <abbr class="required" title="ضروری" style="color:red;">*</abbr>
+                                                </label>
+                                                <textarea rows="5" asp-for="FullAddress" class="textarea-name-checkout form-control"></textarea>
+                                                
+                                                <label for="address">
+                                                    توضيحات اضافه آدرس (اختياري)
+                                                    <abbr class="required" title="ضروری" style="color:red;">*</abbr>
+                                                </label>
+                                                <textarea rows="3" asp-for="AddressDescripton" class="textarea-name-checkout form-control"></textarea>
+
+                                                <div class="AR-CR">
+                                                    @if (ViewBag.AddressId == null)
+                                                    {
+                                                        <button type="submit" class="btn-registrar"> ثبت آدرس</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button type="submit" class="btn-registrar"> ويرايش آدرس</button>
+                                                    }
+                                                    <a href="/UserPanel" class="cancel-edit-address" data-dismiss="modal" aria-label="Close">بازگشت</a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

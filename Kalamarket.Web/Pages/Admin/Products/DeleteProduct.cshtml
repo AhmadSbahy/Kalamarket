@@ -1,0 +1,14 @@
+﻿@page "{id}"
+@model Kalamarket.Web.Pages.Admin.Product.DeleteProductModel
+@{
+}
+<form method="post">
+	<img src="/Product/Thumb/@Model.DeleteeModel.Image" style="max-height:200px"/>
+	<input class="form-control mb-3" asp-for="DeleteeModel.Name" placeholder="Disabled readonly input" aria-label="نام محصول" disabled readonly>
+@* 	<input class="form-control mb-3" asp-for="DeleteeModel.Group" placeholder="Disabled readonly input" aria-label="نام محصول" disabled readonly>
+	<input class="form-control mb-3" asp-for="DeleteeModel.Sub" placeholder="Disabled readonly input" aria-label="نام محصول" disabled readonly> *@
+	<input class="form-control mb-3" asp-for="DeleteeModel.Price" placeholder="Disabled readonly input" aria-label="قيمت محصول" disabled readonly>
+	<div class="col">
+		<button type="submit" class="btn btn-outline-danger px-5">حذف</button>
+	</div>
+</form>

@@ -1,0 +1,11 @@
+﻿@using Kalamarket.Core.DTOs.User
+@model ForgotPasswordViewModel
+@{
+    Layout = null;
+}
+
+<div style="max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); background-color: #1111; text-align: center;">
+    <h2 style="color: #333;">@Model.FullName عزیز</h2>
+    <p style="color: #555; font-size: 14px; margin-bottom: 15px;">برای تغيير كلمه عبور ميتوانيد از كد زير ان را تاييد كنيد</p>
+    <p style="color: white;background-color:#651fff;display:inline;padding: 6px;border-radius: 8px;; font-size: 18px;">کد فعالسازی: <strong>@(Model.Code.ToString())</strong></p>
+</div>

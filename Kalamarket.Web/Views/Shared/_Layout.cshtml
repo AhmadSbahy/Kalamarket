@@ -1,0 +1,321 @@
+﻿@using Kalamarket.Core.Service.Classes
+@using Kalamarket.Core.Service.Interface
+@inject IProductService _product
+@inject IUserSrvice _user
+@inject IPermissionSrvice _PermissionSrvice;
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+	<partial name="_MetaTag" />
+	<title>فروشگاه اینترنتی کالا مارکت</title>
+	<partial name="_Styles" />
+
+</head>
+
+<body>
+	<header class="header-main">
+		<div class="d-block">
+			<section class="h-main-row">
+				<div class="col-lg-9 col-md-12 col-xs-12 pr">
+					<div class="header-right">
+						<div class="col-lg-3 pr">
+							<div class="header-logo row text-right">
+								<a href="/">
+									<img src="~/assets/images/logo.png" alt="کالامارکت">
+								</a>
+							</div>
+						</div>
+						<div class="col-lg-8 pr">
+							<div class="header-search row text-right">
+								<div class="header-search-box">
+									<form action="/Product" class="form-search">
+										<input type="search" class="header-search-input" name="filter"
+											   placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…"
+											   autocomplete="off" />
+										<div class="action-btns">
+											<button class="btn btn-search" type="submit">
+												<img src="~/assets/images/search.png" alt="search">
+											</button>
+
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-md-0 col-xs-12 pl">
+					<div class="header-left">
+						<div class="header-account text-left">
+							<div class="d-block">
+								<div class="account-box">
+									<div class="nav-account d-block pl">
+										<span class="icon-account">
+											<img src="~/assets/images/man.png" class="avator">
+										</span>
+										<span class="title-account">حساب کاربری</span>
+										<div class="dropdown-menu">
+											<ul class="account-uls mb-0">
+												@if (User.Identity.IsAuthenticated)
+												{
+													if (_PermissionSrvice.IsUserInRole(User.Identity.Name, 8))
+													{
+														<li class="account-item">
+															<a href="/admin" class="account-link">مدیریت سایت</a>
+														</li>
+													}
+													<li class="account-item">
+														<a href="/UserPanel" class="account-link">پنل کاربری</a>
+													</li>
+													<li class="account-item">
+														<a href="/UserPanel/MyOrders" class="account-link">سفارشات من</a>
+													</li>
+													<li class="account-item">
+														<a href="/Logout" class="account-link">خروج</a>
+													</li>
+												}
+												else
+												{
+													<li class="account-item">
+														<a asp-controller="Account" asp-action="Register" class="account-link">ثبت نام</a>
+													</li>
+													<li class="account-item">
+														<a href="/Login" class="account-link">ورود</a>
+													</li>
+												}
+
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<nav class="header-main-nav">
+				<div class="d-block">
+					<div class="align-items-center">
+						<ul class="menu-ul mega-menu-level-one">
+							@await Component.InvokeAsync("ProductGroupComponent")
+							<li id="nav-menu-item" class="menu-item nav-overlay">
+								<a href="/Blog" class="current-link-menu">
+									وبلاگ ها
+								</a>
+							</li>
+							<li class="divider-space-card">
+								<div class="header-cart-basket">
+
+									@if (User.Identity.IsAuthenticated)
+									{
+										var Order = _product.GetIndexOrder(User.Identity.Name);
+										<a href="/Product/ShowCart" class="cart-basket-box">
+											<span class="icon-cart">
+												<i class="mdi mdi-shopping"></i>
+											</span>
+											<span class="title-cart">سبد خرید</span>
+											<span class="price-cart">
+												@if (Order.Price > 0)
+												{
+													@Order.Price.ToString("#,0")
+													<span>تومان</span>
+												}
+												else
+												{
+													<span>سبد خرید شما خالی است</span>
+												}
+											</span>
+										</a>
+									}
+									else
+									{
+										<a href="/Product/ShowCart" class="cart-basket-box">
+											<span class="icon-cart">
+												<i class="mdi mdi-shopping"></i>
+											</span>
+											<span class="title-cart">سبد خرید</span>
+											<span class="price-cart">
+												<span>وارد سایت شوید</span>
+											</span>
+											
+										</a>
+									}
+
+								</div>
+								<div class="header-cart-interest">
+									<a href="/UserPanel/Favorite" class="d-block">
+										<i class="fa fa-heart"></i>
+										@if (User.Identity.IsAuthenticated)
+										{
+											int count = _user.GetFavoritesByUsername(User.Identity.Name).Item2;
+											<span class="counter">@count</span>
+										}
+									</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			@await Component.InvokeAsync("RisponsivGroupComponent")
+			<div class="bottom-menu-joomy">
+				<ul class="mb-0">
+					<li>
+						<a href="/">
+							<i class="mdi mdi-home"></i>
+							صفحه اصلی
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<div class="nav-btn nav-slider">
+								<i class="mdi mdi-menu" aria-hidden="true"></i>
+							</div>
+							دسته بندی ها
+						</a>
+					</li>
+					<li>
+						<a href="/Product/ShowCart">
+							<i class="mdi mdi-cart"></i>
+							سبد خرید
+							<div class="shopping-bag-item">2</div>
+						</a>
+					</li>
+					<li>
+						<a href="/UserPanel">
+							<i class="mdi mdi-account"></i>
+							حساب کاربری
+						</a>
+					</li>
+				</ul>
+			</div>
+			<!--    responsive-megamenu-mobile----------------->
+		</div>
+	</header>
+
+
+	@RenderBody()
+	<!-- footer------------------------------------------->
+	<footer class="footer-main-site">
+		<section class="d-block d-xl-block d-lg-block d-md-block d-sm-block order-1">
+			<div class="footer-shopping-social">
+				<div class="row">
+					<div class="col-lg-6 col-md-6 col-xs-12">
+						<div class="logo">
+							<a href="#">
+								<img src="~/assets/images/logo.png" alt="کالامارکت">
+							</a>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6 col-xs-12">
+						<div class="footer-populated text-left">
+							<div class="footer-social">
+								<h5 class="footer-populated-title">ما را دنبال کنید</h5>
+								<ul>
+									<li>
+										<a href="https://www.instagram.com/a7mad_4870_"><i class="fa fa-instagram"></i></a>
+									</li>
+									<li>
+										<a href="https://wa.me/96896335357"><i class="fa fa-whatsapp"></i></a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="d-block d-xl-block d-lg-block d-md-block d-sm-block order-1">
+			<div class="container-fluid">
+				<div class="col-12">
+					<div class="footer-middlebar">
+						<div class="col-lg-5 d-block pr">
+							<div class="footer-links">
+								<div class="col-lg-3 col-md-3 col-xs-10 pr">
+									<div class="row">
+										<section class="footer-links-col">
+											<div class="headline-links">
+												<a href="/AboutUs">
+													درباره كالاماركت
+												</a>
+											</div>
+										</section>
+									</div>
+								</div>
+								<div class="col-lg-2 col-md-2 col-xs-6 pr">
+									<div class="row">
+										<section class="footer-links-col">
+											<div class="headline-links">
+												<a href="/ContactUs">
+													تماس با ما
+												</a>
+											</div>
+										</section>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="footer-more-info">
+							<div class="col-lg-10 pr">
+								<div class="footer-content d-block">
+									<div class="text pr-1">
+										<h2 class="title text-danger">توجه !</h2>
+										<p class="desc">
+											احمد صباحی مقدم نویسنده این سایت می‌باشد و این سایت هیچ‌گونه فعالیت واقعی انجام نمی‌دهد. این سایت به‌عنوان یک مثال برای نمایش توانایی‌های تکنولوژی مورد استفاده قرار گرفته است. بنابراین، اطلاعات و محتواهای موجود در آن، تنها به منظور نمایش قابل استفاده است و هیچ ارتباط واقعی با واقعیت ندارد.
+											همچنین، این سایت می‌تواند به عنوان یک مثال برای نحوه طراحی وبسایت و استفاده از تکنولوژی‌های مختلف مورد استفاده قرار گیرد. بنابراین، محتوا و اطلاعات موجود در آن، برای اهداف آموزشی و یادگیری استفاده می‌شود و هیچ تصوری از ارتباط واقعی با هر گونه فعالیت تجاری یا اقتصادی ندارد.
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="footer-copyright">
+								<div class="footer-copyright-text">
+									<h6>برنامه نويس سايت : احمد صباحى مقدم</h6>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</footer>
+	<!-- footer------------------------------------------->
+	<!-- scroll_Progress------------------------->
+	<!-- scroll_Progress------------------------->
+	<!-- Page Loader----------------------------->
+	<div class="P-loader">
+		<div class="P-loader-content">
+			<div class="logo-loader">
+				<img src="~/assets/images/logo.png" alt="logo">
+			</div>
+			<div class="pic-loader text-center">
+				<img src="~/assets/images/three-dots.svg" width="50" alt="">
+			</div>
+		</div>
+	</div>
+	<!-- Page Loader----------------------------->
+
+</body>
+<!-- file js---------------------------------------------------->
+<script src="~/assets/js/vendor/jquery-3.2.1.min.js"></script>
+<script src="~/assets/js/vendor/bootstrap.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
+
+<!-- plugin----------------------------------------------------->
+
+<script src="~/assets/js/vendor/owl.carousel.min.js"></script>
+<script src="~/assets/js/vendor/jquery.countdown.js"></script>
+<script src="~/assets/js/vendor/jquery.nice-select.min.js"></script>
+<script src="~/assets/js/vendor/jquery.jqZoom.js"></script>
+<script src="~/assets/js/vendor/ResizeSensor.min.js"></script>
+<script src="~/assets/js/vendor/theia-sticky-sidebar.min.js"></script>
+<script src="~/assets/js/vendor/wNumb.js"></script>
+<script src="~/assets/js/vendor/nouislider.min.js"></script>
+
+<script src="~/assets/js/vendor/lightgallery-all.js"></script>
+<script src="~/assets/js/vendor/jquery.ez-plus.js"></script>
+
+<script src="~/assets/js/main.js"></script>
+@RenderSection("Scripts", false)
+</html>
